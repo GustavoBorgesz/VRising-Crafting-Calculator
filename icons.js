@@ -1,0 +1,43 @@
+// Ícones dos materiais, vindos da V Rising Wiki (vrising.wiki.spellsandguns.com).
+// Formato: id do item -> "pasta/subpasta/Arquivo.png". Itens sem ícone aqui usam o emoji do data.js.
+// Para usar arquivos locais no futuro, troque ICON_BASE e ICON_SUFFIX (ou edite iconUrl em app.js).
+window.ICON_BASE="https://vrising.wiki.spellsandguns.com/images/thumb/";
+window.ICONS={
+Sawdust:"8/88/Sawdust.png",
+Plank:"0/0d/Plank.png",
+IronOre:"8/87/Iron_Ore.png",
+IronIngot:"0/0a/Iron_Ingot.png",
+ReinforcedPlank:"e/ef/Reinforced_Plank.png",
+Quartz:"c/cf/Quartz.png",
+Glass:"1/15/Glass.png",
+SulphurOre:"6/6c/Sulphur_Ore.png",
+Sulphur:"b/bc/Sulphur.png",
+Stone:"d/d4/Stone.png",
+StoneBrick:"6/6d/Stone_Brick.png",
+StoneDust:"2/24/Stone_Dust.png",
+Whetstone:"9/9f/Whetstone.png",
+CopperIngot:"0/00/Copper_Ingot.png",
+CopperOre:"7/78/Copper_Ore.png",
+Scourgestone:"1/1e/Scourgestone.png",
+GraveDust:"c/cd/Grave_Dust.png",
+Bone:"2/2c/Bone.png",
+SpectralDust:"d/d5/Spectral_Dust.png",
+GhostCrystal:"d/d0/Ghost_Crystal.png",
+GemDust:"e/e5/Gem_Dust.png",
+SilverOre:"9/97/Silver_Ore.png",
+DarkSilverIngot:"7/7c/Dark_Silver_Ingot.png",
+SilverCoin:"4/4e/Silver_Coin.png",
+GoldIngot:"2/22/Gold_Ingot.png",
+GoldJewelry:"0/0a/Gold_Jewelry.png",
+PlantFibre:"4/4f/Plant_Fibre.png",
+CoarseThread:"2/2d/Coarse_Thread.png",
+WoolThread:"f/f9/Wool_Thread.png",
+Leather:"3/3d/Leather.png",
+Silkworm:"b/b7/Silkworm.png",
+Silk:"8/83/Silk.png",
+CarpetRoll:"d/d3/Carpet_Roll.png",
+GhostYarn:"0/08/Ghost_Yarn.png",
+CottonYarn:"c/c5/Cotton_Yarn.png",
+PristineHide:"6/6c/Pristine_Hide.png",
+PristineLeather:"8/83/Pristine_Leather.png"
+};
