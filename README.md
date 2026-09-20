@@ -11,6 +11,7 @@ Calculadora web para somar materiais de crafting do V Rising.
 - Receita econômica opcional
 - Lista de fabricação com soma consolidada
 - Ícones dos materiais (V Rising Wiki), com emoji como reserva quando o ícone não existe ou não carrega
+- Mapa de recursos: esquema aproximado de Vardoran mostrando as regiões onde farmar os materiais do item escolhido
 - Árvore visual de fabricação (linhas ligando cada item aos ingredientes)
 - Interface responsiva
 - Site estático, pronto para GitHub Pages
@@ -31,6 +32,7 @@ index.html — interface
 styles.css — tema
 data.js — itens e receitas
 icons.js — mapa de ícones dos materiais
+locations.js — regiões do mapa e onde cada material bruto é encontrado
 app.js — motor de cálculo
 
 ## Próximas etapas

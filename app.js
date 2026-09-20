@@ -39,6 +39,7 @@ produces:"Produz",perRecipe:"por receita",noRecipe:"Matéria-prima / sem receita
 noIngredients:"Este item não possui ingredientes cadastrados.",remove:"remover",copied:"✓ Copiado",
 copyMaterialsDefault:"Copiar materiais",count:"itens",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Escolha um item na lista ou pela busca.",
+mapEyebrow:"MAPA DE RECURSOS",mapTitle:"Onde farmar os materiais",mapHint:"Regiões onde ficam os materiais do item escolhido. Esquema aproximado, não é o mapa oficial.",mapLink:"Mapa interativo ↗",mapNoLoc:"Local ainda não mapeado",mapEmpty:"Nenhum material deste item tem local mapeado ainda.",mapAria:"Esquema aproximado do mapa de Vardoran",
 treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo."
 },
 "en":{
@@ -54,6 +55,7 @@ produces:"Produces",perRecipe:"per recipe",noRecipe:"Raw material / no recipe",n
 noIngredients:"This item has no registered ingredients.",remove:"remove",copied:"✓ Copied",
 copyMaterialsDefault:"Copy materials",count:"items",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Choose an item from the list or search.",
+mapEyebrow:"RESOURCE MAP",mapTitle:"Where to farm the materials",mapHint:"Regions where the chosen item's materials are found. Approximate schematic, not the official map.",mapLink:"Interactive map ↗",mapNoLoc:"Location not mapped yet",mapEmpty:"None of this item's materials have a mapped location yet.",mapAria:"Approximate schematic of the Vardoran map",
 treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it."
 }
 };
@@ -99,6 +101,7 @@ function applyLanguage(){
   document.documentElement.lang=lang;
   document.querySelectorAll("[data-i18n]").forEach(function(n){n.textContent=t(n.dataset.i18n)});
   document.querySelectorAll("[data-i18n-placeholder]").forEach(function(n){n.placeholder=t(n.dataset.i18nPlaceholder)});
+  document.querySelectorAll("[data-i18n-aria]").forEach(function(n){n.setAttribute("aria-label",t(n.dataset.i18nAria))});
   el("langPT").classList.toggle("active",lang==="pt-BR");el("langEN").classList.toggle("active",lang==="en");
   renderItemList();render();
   renderPlan();
@@ -135,6 +138,8 @@ function render(){
   var entries=Array.from(c.totals.entries()).sort(function(a,b){return b[1]-a[1]});
   el("materials").innerHTML=entries.length?entries.map(function(pair){var id=pair[0],n=pair[1];return '<div class="material"><div class="material-left"><div class="item-icon">'+iconHTML(id)+'</div><div><div class="material-name">'+itemName(id)+'</div><div class="material-type">'+(recipeFor(id).length?t("craftable"):t("raw"))+'</div></div></div><b>'+fmt(n)+'</b></div>'}).join(""):'<div class="empty">'+t("noIngredients")+"</div>";
   renderTree(qty,recursive,alt);
+  var full=first?calculate(selected,qty,true,alt).totals:new Map([[selected,qty]]);
+  renderMap(full);
 }
 function buildTree(id,n,recursive,useAlt,path,depth){
   var rr=recipeFor(id),node={id:id,qty:n,children:[]};
@@ -175,6 +180,47 @@ function renderTree(qty,recursive,alt){
   root.appendChild(treeNodeEl(buildTree(selected,qty,recursive,alt,[],0),true));
   drawTreeLines();
 }
+var MAPDATA=window.VR_MAP,regionById=new Map(MAPDATA.regions.map(function(r){return [r.id,r]}));
+function initMap(){
+  el("mapRegions").innerHTML=MAPDATA.regions.map(function(r){
+    return '<div class="rg" data-region="'+r.id+'" style="left:'+r.x+'%;top:'+r.y+'%;width:'+r.w+'%;height:'+r.h+'%"><div class="rg-head"><span class="rg-name">'+r.name+'</span><span class="rg-count"></span></div><div class="rg-icons"></div></div>';
+  }).join("")+'<span class="rg-compass">N ↑</span>';
+}
+function focusRegions(ids){
+  document.querySelectorAll("#mapRegions .rg").forEach(function(n){
+    var hit=!!ids&&ids.indexOf(n.dataset.region)!==-1;
+    n.classList.toggle("focus",hit);n.classList.toggle("fade",!!ids&&!hit);
+  });
+}
+function renderMap(totals){
+  var entries=Array.from(totals.entries()).sort(function(a,b){return b[1]-a[1]}),byRegion={},located=0;
+  entries.forEach(function(pair){
+    var regs=MAPDATA.items[pair[0]]||[];
+    if(regs.length)located++;
+    regs.forEach(function(rid){(byRegion[rid]=byRegion[rid]||[]).push(pair)});
+  });
+  document.querySelectorAll("#mapRegions .rg").forEach(function(n){
+    var list=byRegion[n.dataset.region]||[];
+    n.classList.toggle("on",list.length>0);n.classList.toggle("off",!list.length);
+    n.querySelector(".rg-count").textContent=list.length||"";
+    n.querySelector(".rg-icons").innerHTML=list.map(function(p){
+      return '<span class="rg-ico" title="'+itemName(p[0])+' × '+fmt(p[1])+'">'+iconHTML(p[0])+'</span>';
+    }).join("");
+  });
+  var box=el("mapList");
+  if(!located){box.innerHTML='<div class="empty">'+t("mapEmpty")+'</div>';focusRegions(null);return}
+  box.innerHTML=entries.map(function(pair){
+    var id=pair[0],regs=MAPDATA.items[id]||[];
+    var chips=regs.length?regs.map(function(rid){return '<span class="chip">'+regionById.get(rid).short+'</span>'}).join(""):'<span class="chip muted">'+t("mapNoLoc")+'</span>';
+    return '<div class="loc-row" tabindex="0" data-id="'+id+'"><div class="item-icon">'+iconHTML(id)+'</div><div class="loc-main"><div class="loc-name">'+itemName(id)+' <b>× '+fmt(pair[1])+'</b></div><div class="loc-regions">'+chips+'</div></div></div>';
+  }).join("");
+  box.querySelectorAll(".loc-row").forEach(function(row){
+    var ids=MAPDATA.items[row.dataset.id]||[];
+    function on(){if(ids.length)focusRegions(ids)}function off(){focusRegions(null)}
+    row.addEventListener("mouseenter",on);row.addEventListener("focus",on);
+    row.addEventListener("mouseleave",off);row.addEventListener("blur",off);
+  });
+}
 function addCurrent(){
   var qty=Math.max(1,parseInt(el("quantity").value)||1),i=plan.find(function(x){return x.id===selected});
   if(i)i.qty+=qty;else plan.push({id:selected,qty:qty});renderPlan();
@@ -207,4 +253,5 @@ el("copy").onclick=async function(){
 I18N["pt-BR"].craftingRecipe="Receita de fabricação";
 I18N.en.craftingRecipe="Crafting recipe";
 el("dataVersion").textContent="Dados: "+D.version+" · "+t("chooseItem");
+initMap();
 applyLanguage();
