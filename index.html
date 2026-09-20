@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0d1018"><title>V Rising Crafting Calculator</title>
+<meta name="description" content="Calculadora de materiais e cadeia de crafting para V Rising.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body><div class="bg"></div>
+<header class="topbar"><div class="brand"><span class="bat">✦</span><div><strong>V RISING</strong><small>CRAFTING CALCULATOR</small></div></div><a href="https://github.com/GustavoBorgesz/VRising-Crafting-Calculator" target="_blank" rel="noreferrer">GitHub ↗</a></header>
+<main class="shell">
+<section class="hero"><p class="eyebrow">MATERIAL CALCULATOR</p><h1>Quanto eu preciso farmar?</h1><p>Escolha um item, defina a quantidade e veja os materiais diretos ou toda a cadeia até as matérias-primas.</p></section>
+<section class="calculator">
+<aside class="panel controls">
+<label for="search">Item para fabricar</label><div class="searchbox"><span>⌕</span><input id="search" autocomplete="off" placeholder="Buscar item..."></div><div id="suggestions" class="suggestions"></div>
+<div class="selected"><div id="selectedIcon" class="item-icon">⚗</div><div><strong id="selectedName">Sludge-filled Canister</strong><small id="selectedMeta">Fabricator · 1 por receita</small></div></div>
+<label for="quantity">Quantidade desejada</label><div class="quantity"><button id="minus">−</button><input id="quantity" type="number" min="1" max="999999" value="1"><button id="plus">+</button></div>
+<div class="toggle-row"><div><strong>Cadeia completa</strong><small>Substitui itens fabricáveis pelas matérias-primas</small></div><label class="switch"><input id="recursive" type="checkbox" checked><span></span></label></div>
+<div class="toggle-row"><div><strong>Usar receita econômica</strong><small>Quando houver quantidade alternativa</small></div><label class="switch"><input id="alt" type="checkbox"><span></span></label></div>
+<button id="addPlan" class="primary">＋ Adicionar à lista</button><button id="copy" class="secondary">Copiar materiais</button>
+</aside>
+<section class="panel results"><div class="result-head"><div><p class="eyebrow">RESULTADO</p><h2 id="resultTitle">Sludge-filled Canister × 1</h2></div><span id="recipeOutput" class="pill">Produz 1</span></div><div id="summary" class="summary"></div><div id="materials" class="materials"></div></section>
+</section>
+<section class="panel plan"><div class="plan-head"><div><p class="eyebrow">PRODUCTION LIST</p><h2>Minha lista de fabricação</h2></div><button id="clearPlan" class="ghost">Limpar</button></div><div id="planItems" class="plan-items"><div class="empty">Adicione itens à lista para somar tudo em uma única lista de farm.</div></div><div id="planTotals" class="plan-totals"></div></section>
+<footer><span>Fan-made project · V Rising is property of Stunlock Studios.</span><span id="dataVersion">Recipe graph</span></footer>
+</main><script src="data.js"></script><script src="app.js"></script></body></html>
