@@ -38,7 +38,8 @@ complete:"Cadeia completa",craftable:"fabricável",raw:"matéria-prima",recipe:"
 produces:"Produz",perRecipe:"por receita",noRecipe:"Matéria-prima / sem receita",noRecipeShort:"Sem receita",
 noIngredients:"Este item não possui ingredientes cadastrados.",remove:"remover",copied:"✓ Copiado",
 copyMaterialsDefault:"Copiar materiais",count:"itens",footer:"Fan-made project · V Rising is property of Stunlock Studios.",
-chooseItem:"Escolha um item na lista ou pela busca."
+chooseItem:"Escolha um item na lista ou pela busca.",
+treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo."
 },
 "en":{
 eyebrow:"MATERIAL CALCULATOR",heroTitle:"How much do I need to farm?",
@@ -52,7 +53,8 @@ complete:"Full chain",craftable:"craftable",raw:"raw material",recipe:"recipe(s)
 produces:"Produces",perRecipe:"per recipe",noRecipe:"Raw material / no recipe",noRecipeShort:"No recipe",
 noIngredients:"This item has no registered ingredients.",remove:"remove",copied:"✓ Copied",
 copyMaterialsDefault:"Copy materials",count:"items",footer:"Fan-made project · V Rising is property of Stunlock Studios.",
-chooseItem:"Choose an item from the list or search."
+chooseItem:"Choose an item from the list or search.",
+treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it."
 }
 };
 let lang="pt-BR";
@@ -118,6 +120,46 @@ function render(){
   el("summary").innerHTML='<div class="stat"><b>'+fmt(c.batches)+'</b> '+t("recipe")+'</div><div class="stat"><b>'+fmt(c.totals.size)+'</b> '+t("materials")+'</div><div class="stat">'+(recursive?t("complete"):t("direct"))+'</div>';
   var entries=Array.from(c.totals.entries()).sort(function(a,b){return b[1]-a[1]});
   el("materials").innerHTML=entries.length?entries.map(function(pair){var id=pair[0],n=pair[1],x=items.get(id)||{name:id,icon:"•"};return '<div class="material"><div class="material-left"><div class="item-icon">'+x.icon+'</div><div><div class="material-name">'+itemName(id)+'</div><div class="material-type">'+(recipeFor(id).length?t("craftable"):t("raw"))+'</div></div></div><b>'+fmt(n)+'</b></div>'}).join(""):'<div class="empty">'+t("noIngredients")+"</div>";
+  renderTree(qty,recursive,alt);
+}
+function buildTree(id,n,recursive,useAlt,path,depth){
+  var rr=recipeFor(id),node={id:id,qty:n,children:[]};
+  if(!rr.length||path.indexOf(id)!==-1||(!recursive&&depth>=1))return node;
+  var b=Math.ceil(n/(rr[0].produces||1));
+  rr.forEach(function(x){var q=useAlt&&x.altQty>0?x.altQty:x.qty;node.children.push(buildTree(x.from,b*q,recursive,useAlt,path.concat(id),depth+1))});
+  return node;
+}
+function treeNodeEl(n,isRoot){
+  var wrap=document.createElement("div");wrap.className="tnode";
+  if(n.children.length){
+    var row=document.createElement("div");row.className="tchildren";
+    n.children.forEach(function(c){row.appendChild(treeNodeEl(c,false))});
+    wrap.appendChild(row);
+  }
+  var x=items.get(n.id)||{icon:"•"},box=document.createElement("div");
+  box.className="tbox "+(recipeFor(n.id).length?"craft":"raw")+(isRoot?" root":"");
+  box.innerHTML='<span class="tbox-icon">'+x.icon+'</span><span class="tbox-text"><b>'+itemName(n.id)+'</b><small>× '+fmt(n.qty)+'</small></span>';
+  wrap.appendChild(box);
+  return wrap;
+}
+function drawTreeLines(){
+  var canvas=el("treeCanvas"),svg=el("treeLines"),cr=canvas.getBoundingClientRect(),d="";
+  canvas.querySelectorAll(".tnode").forEach(function(node){
+    var kids=node.querySelectorAll(":scope > .tchildren > .tnode > .tbox");
+    if(!kids.length)return;
+    var p=node.querySelector(":scope > .tbox").getBoundingClientRect(),px=p.left+p.width/2-cr.left,py=p.top-cr.top;
+    kids.forEach(function(k){
+      var r=k.getBoundingClientRect(),kx=r.left+r.width/2-cr.left,ky=r.bottom-cr.top,my=(ky+py)/2;
+      d+="M"+kx+" "+ky+"V"+my+"H"+px+"V"+py;
+    });
+  });
+  svg.setAttribute("width",canvas.scrollWidth);svg.setAttribute("height",canvas.scrollHeight);
+  el("treePath").setAttribute("d",d);
+}
+function renderTree(qty,recursive,alt){
+  var root=el("treeRoot");root.innerHTML="";
+  root.appendChild(treeNodeEl(buildTree(selected,qty,recursive,alt,[],0),true));
+  drawTreeLines();
 }
 function addCurrent(){
   var qty=Math.max(1,parseInt(el("quantity").value)||1),i=plan.find(function(x){return x.id===selected});
@@ -132,6 +174,7 @@ function renderPlan(){
   plan.forEach(function(p){var c=calculate(p.id,p.qty,true,el("alt").checked);c.totals.forEach(function(n,id){add(totals,id,n)})});
   el("planTotals").innerHTML=Array.from(totals.entries()).sort(function(a,b){return b[1]-a[1]}).map(function(pair){var x=items.get(pair[0])||{icon:"•"};return '<div class="plan-total"><b>'+x.icon+' '+fmt(pair[1])+'</b><span>'+itemName(pair[0])+'</span></div>'}).join("");
 }
+window.addEventListener("resize",drawTreeLines);
 el("search").addEventListener("input",renderSuggestions);
 el("quantity").addEventListener("input",render);
 el("minus").onclick=function(){el("quantity").value=Math.max(1,(+el("quantity").value||1)-1);render()};

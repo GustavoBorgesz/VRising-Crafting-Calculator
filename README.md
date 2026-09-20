@@ -10,6 +10,7 @@ Calculadora web para somar materiais de crafting do V Rising.
 - Arredondamento por lotes
 - Receita econômica opcional
 - Lista de fabricação com soma consolidada
+- Árvore visual de fabricação (linhas ligando cada item aos ingredientes)
 - Interface responsiva
 - Site estático, pronto para GitHub Pages
 
@@ -35,5 +36,4 @@ app.js — motor de cálculo
 2. Adicionar ícones dos itens.
 3. Adicionar estações e desbloqueios.
 4. Suportar múltiplas variantes de receita.
-5. Adicionar árvore visual de crafting.
-6. Adicionar importação/exportação da lista de farm.
+5. Adicionar importação/exportação da lista de farm.
