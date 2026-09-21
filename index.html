@@ -4,7 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0d1018"><title>V Rising Crafting Calculator</title>
 <meta name="description" content="Calculadora de materiais e cadeia de crafting para V Rising.">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes">
 </head>
 <body><div class="bg"></div>
 <header class="topbar"><div class="brand"><span class="bat">✦</span><div><strong>V RISING</strong><small>CRAFTING CALCULATOR</small></div></div><div class="top-actions"><div class="language" role="group" aria-label="Language"><button id="langPT" class="lang active" type="button">PT-BR</button><button id="langEN" class="lang" type="button">EN</button></div><a href="https://github.com/GustavoBorgesz/VRising-Crafting-Calculator" target="_blank" rel="noreferrer">GitHub ↗</a></div></header>
@@ -46,4 +46,4 @@
 <section class="panel plan feature-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="productionList">LISTA DE PRODUÇÃO</p><h2 data-i18n="myList">Minha lista de fabricação</h2></div><button id="clearPlan" class="ghost" type="button" data-i18n="clear">Limpar</button></div><div id="planItems" class="plan-items"><div class="empty" data-i18n="emptyPlan">Adicione itens à lista para somar tudo em uma única lista de farm.</div></div><div id="planTotals" class="plan-totals"></div></section>
 <div class="project-bar"><button id="saveProject" class="secondary" type="button">💾 Salvar projeto</button><button id="exportData" class="secondary" type="button">⬇ Exportar</button><button id="importData" class="secondary" type="button">⬆ Importar</button><input id="importFile" type="file" accept=".json" hidden></div>
 <footer><span data-i18n="footer">Fan-made project · V Rising is property of Stunlock Studios.</span><span id="dataVersion">Recipe graph</span></footer>
-</main><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="app.js"></script></body></html>
+</main><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(function(){})}</script></body></html>
