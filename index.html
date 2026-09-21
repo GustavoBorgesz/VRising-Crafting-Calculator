@@ -14,22 +14,36 @@
 <button type="button" class="view-btn active" data-view="calculator" data-i18n="viewCalculator">⚙ Calculadora</button>
 <button type="button" class="view-btn" data-view="tree" data-i18n="viewTree">⌘ Árvore</button>
 <button type="button" class="view-btn" data-view="map" data-i18n="viewMap">⌖ Mapa</button>
+<button type="button" class="view-btn" data-view="farm" data-i18n="viewFarm">⛏ Farm</button>
+<button type="button" class="view-btn" data-view="inventory" data-i18n="viewInventory">▣ Inventário</button>
 <button type="button" class="view-btn" data-view="plan" data-i18n="viewPlan">☷ Minha lista</button>
 </nav>
 <section class="calculator">
 <aside class="panel controls">
 <label for="search" data-i18n="itemToCraft">Item para fabricar</label><div class="searchbox"><span>⌕</span><input id="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder" placeholder="Buscar item..."></div><div id="suggestions" class="suggestions"></div>
-<div class="item-list-head"><strong data-i18n="itemList">Lista de itens</strong><span id="itemCount"></span></div><div id="itemList" class="item-list"></div>
+<div class="item-list-head"><strong data-i18n="itemList">Lista de itens</strong><span id="itemCount"></span></div>
+<div class="filter-row"><button class="filter active" data-filter="all">Todos</button><button class="filter" data-filter="craftable">Fabricáveis</button><button class="filter" data-filter="raw">Matérias-primas</button></div><div id="itemList" class="item-list"></div>
 <div class="selected"><div id="selectedIcon" class="item-icon">⚗️</div><div><strong id="selectedName">Sludge-filled Canister</strong><small id="selectedMeta">Crafting recipe · 1 per recipe</small></div></div>
 <label for="quantity" data-i18n="desiredQuantity">Quantidade desejada</label><div class="quantity"><button id="minus" type="button">−</button><input id="quantity" type="number" min="1" max="999999" value="1"><button id="plus" type="button">+</button></div>
 <div class="toggle-row"><div><strong data-i18n="fullChain">Cadeia completa</strong><small data-i18n="fullChainHelp">Substitui itens fabricáveis pelas matérias-primas</small></div><label class="switch"><input id="recursive" type="checkbox" checked><span></span></label></div>
 <div class="toggle-row"><div><strong data-i18n="economicRecipe">Usar receita econômica</strong><small data-i18n="economicHelp">Quando houver quantidade alternativa</small></div><label class="switch"><input id="alt" type="checkbox"><span></span></label></div>
 <button id="addPlan" class="primary" type="button" data-i18n="addList">＋ Adicionar à lista</button><button id="copy" class="secondary" type="button" data-i18n="copyMaterials">Copiar materiais</button>
+<button id="favorite" class="secondary favorite-btn" type="button">☆ Favoritar</button>
 </aside>
 <section class="panel results"><div class="result-head"><div><p class="eyebrow" data-i18n="result">RESULTADO</p><h2 id="resultTitle">Sludge-filled Canister × 1</h2></div><span id="recipeOutput" class="pill">Produces 1</span></div><div id="summary" class="summary"></div><div id="materials" class="materials"></div></section>
 </section>
 <section class="panel tree-panel feature-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="treeEyebrow">ÁRVORE DE FABRICAÇÃO</p><h2 data-i18n="treeTitle">Do item final aos materiais</h2><p class="tree-hint" data-i18n="treeHint">Cada linha liga um item aos ingredientes usados para fabricá-lo.</p></div><div class="tree-legend"><span class="lg"><i class="dot craft"></i><span data-i18n="craftable">fabricável</span></span><span class="lg"><i class="dot raw"></i><span data-i18n="raw">matéria-prima</span></span></div></div><div id="treeScroll" class="tree-scroll"><div id="treeCanvas" class="tree-canvas"><svg id="treeLines" class="tree-lines" aria-hidden="true"><path id="treePath"></path></svg><div id="treeRoot"></div></div></div></section>
 <section class="panel map-panel feature-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="mapEyebrow">MAPA DE RECURSOS</p><h2 data-i18n="mapTitle">Onde farmar os materiais</h2><p class="tree-hint" data-i18n="mapHint">Regiões onde ficam os materiais do item escolhido. Esquema aproximado, não é o mapa oficial.</p></div><a class="map-link" href="https://mapgenie.io/v-rising/maps/vardoran" target="_blank" rel="noreferrer" data-i18n="mapLink">Mapa interativo ↗</a></div><div class="map-body"><div class="map-board" role="img" data-i18n-aria="mapAria" aria-label="Esquema aproximado do mapa de Vardoran"><div id="mapRegions" class="map-regions"></div></div><div id="mapList" class="map-list"></div></div></section>
+<section class="panel farm-panel feature-panel">
+<div class="plan-head"><div><p class="eyebrow">MODO FARM</p><h2>O que preciso farmar?</h2><p class="tree-hint">Mostra somente o que falta depois de descontar seu inventário.</p></div><button id="clearInventoryFarm" class="ghost" type="button">Zerar</button></div>
+<div id="farmSummary" class="summary"></div><div id="farmMaterials" class="materials"></div>
+<div class="farm-actions"><button id="copyFarm" class="secondary" type="button">📋 Copiar lista de farm</button><button id="markFarmed" class="secondary" type="button">✓ Marcar tudo como farmado</button></div>
+</section>
+<section class="panel inventory-panel feature-panel">
+<div class="plan-head"><div><p class="eyebrow">INVENTÁRIO</p><h2>O que eu já tenho?</h2><p class="tree-hint">Informe quanto você possui de cada material.</p></div><button id="clearInventory" class="ghost" type="button">Limpar</button></div>
+<div id="inventoryGrid" class="inventory-grid"></div>
+</section>
 <section class="panel plan feature-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="productionList">LISTA DE PRODUÇÃO</p><h2 data-i18n="myList">Minha lista de fabricação</h2></div><button id="clearPlan" class="ghost" type="button" data-i18n="clear">Limpar</button></div><div id="planItems" class="plan-items"><div class="empty" data-i18n="emptyPlan">Adicione itens à lista para somar tudo em uma única lista de farm.</div></div><div id="planTotals" class="plan-totals"></div></section>
+<div class="project-bar"><button id="saveProject" class="secondary" type="button">💾 Salvar projeto</button><button id="exportData" class="secondary" type="button">⬇ Exportar</button><button id="importData" class="secondary" type="button">⬆ Importar</button><input id="importFile" type="file" accept=".json" hidden></div>
 <footer><span data-i18n="footer">Fan-made project · V Rising is property of Stunlock Studios.</span><span id="dataVersion">Recipe graph</span></footer>
 </main><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="app.js"></script></body></html>
