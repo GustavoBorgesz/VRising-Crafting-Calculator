@@ -40,7 +40,8 @@ noIngredients:"Este item não possui ingredientes cadastrados.",remove:"remover"
 copyMaterialsDefault:"Copiar materiais",count:"itens",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Escolha um item na lista ou pela busca.",
 mapEyebrow:"MAPA DE RECURSOS",mapTitle:"Onde farmar os materiais",mapHint:"Regiões onde ficam os materiais do item escolhido. Esquema aproximado, não é o mapa oficial.",mapLink:"Mapa interativo ↗",mapNoLoc:"Local ainda não mapeado",mapEmpty:"Nenhum material deste item tem local mapeado ainda.",mapAria:"Esquema aproximado do mapa de Vardoran",
-treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo."
+treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo.",
+viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewPlan:"☷ Minha lista"
 },
 "en":{
 eyebrow:"MATERIAL CALCULATOR",heroTitle:"How much do I need to farm?",
@@ -56,7 +57,8 @@ noIngredients:"This item has no registered ingredients.",remove:"remove",copied:
 copyMaterialsDefault:"Copy materials",count:"items",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Choose an item from the list or search.",
 mapEyebrow:"RESOURCE MAP",mapTitle:"Where to farm the materials",mapHint:"Regions where the chosen item's materials are found. Approximate schematic, not the official map.",mapLink:"Interactive map ↗",mapNoLoc:"Location not mapped yet",mapEmpty:"None of this item's materials have a mapped location yet.",mapAria:"Approximate schematic of the Vardoran map",
-treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it."
+treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it.",
+viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewPlan:"☷ My list"
 }
 };
 let lang="pt-BR";
@@ -225,6 +227,23 @@ function addCurrent(){
   var qty=Math.max(1,parseInt(el("quantity").value)||1),i=plan.find(function(x){return x.id===selected});
   if(i)i.qty+=qty;else plan.push({id:selected,qty:qty});renderPlan();
 }
+function activateView(view){
+  document.querySelectorAll(".view-btn").forEach(function(b){
+    b.classList.toggle("active",b.dataset.view===view);
+  });
+  var calc=document.querySelector(".calculator");
+  calc.style.display=view==="calculator"?"grid":"none";
+  document.querySelectorAll(".feature-panel").forEach(function(panel){
+    panel.classList.toggle("active",panel.classList.contains(view+"-panel"));
+  });
+  if(view==="tree") requestAnimationFrame(drawTreeLines);
+  if(view!=="calculator"){
+    var target=document.querySelector("."+view+"-panel");
+    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
+  }else{
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+}
 function renderPlan(){
   el("planItems").innerHTML=plan.length?plan.map(function(p,i){return '<div class="plan-row"><span>'+iconHTML(p.id)+' &nbsp;'+itemName(p.id)+' × '+fmt(p.qty)+'</span><button type="button" data-i="'+i+'">'+t("remove")+"</button></div>"}).join(""):'<div class="empty">'+t("emptyPlan")+"</div>";
   el("planItems").querySelectorAll("button").forEach(function(b){b.onclick=function(){plan.splice(+b.dataset.i,1);renderPlan()}});
@@ -234,7 +253,10 @@ function renderPlan(){
   plan.forEach(function(p){var c=calculate(p.id,p.qty,true,el("alt").checked);c.totals.forEach(function(n,id){add(totals,id,n)})});
   el("planTotals").innerHTML=Array.from(totals.entries()).sort(function(a,b){return b[1]-a[1]}).map(function(pair){return '<div class="plan-total"><b>'+iconHTML(pair[0])+' '+fmt(pair[1])+'</b><span>'+itemName(pair[0])+'</span></div>'}).join("");
 }
-window.addEventListener("resize",drawTreeLines);
+document.querySelectorAll(".view-btn").forEach(function(b){
+  b.addEventListener("click",function(){activateView(b.dataset.view)});
+});
+window.addEventListener("resize",function(){if(document.querySelector(".tree-panel.active"))drawTreeLines()});
 el("search").addEventListener("input",renderSuggestions);
 el("quantity").addEventListener("input",render);
 el("minus").onclick=function(){el("quantity").value=Math.max(1,(+el("quantity").value||1)-1);render()};
