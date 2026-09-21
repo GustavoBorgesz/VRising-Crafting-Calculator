@@ -1,0 +1,10 @@
+{
+  "name":"V Rising Crafting Calculator",
+  "short_name":"V Rising Crafting",
+  "start_url":".",
+  "display":"standalone",
+  "background_color":"#080a10",
+  "theme_color":"#0d1018",
+  "description":"Calculadora de crafting, materiais, inventário e farm para V Rising.",
+  "icons":[]
+}
