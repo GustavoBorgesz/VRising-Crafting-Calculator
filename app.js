@@ -67,6 +67,7 @@ let activeFilter="all";
 let inventory=JSON.parse(localStorage.getItem("vr_inventory")||"{}");
 let favorites=JSON.parse(localStorage.getItem("vr_favorites")||"[]");
 let recent=JSON.parse(localStorage.getItem("vr_recent")||"[]");
+plan=JSON.parse(localStorage.getItem("vr_plan")||"[]");
 let treeScale=1;
 
 function iconUrl(id){
@@ -238,7 +239,7 @@ function renderMap(totals){
 }
 function addCurrent(){
   var qty=Math.max(1,parseInt(el("quantity").value)||1),i=plan.find(function(x){return x.id===selected});
-  if(i)i.qty+=qty;else plan.push({id:selected,qty:qty});renderPlan();
+  if(i)i.qty+=qty;else plan.push({id:selected,qty:qty});localStorage.setItem("vr_plan",JSON.stringify(plan));renderPlan();
 }
 function activateView(view){
   document.querySelectorAll(".view-btn").forEach(function(b){
@@ -259,7 +260,7 @@ function activateView(view){
 }
 function renderPlan(){
   el("planItems").innerHTML=plan.length?plan.map(function(p,i){return '<div class="plan-row"><span>'+iconHTML(p.id)+' &nbsp;'+itemName(p.id)+' × '+fmt(p.qty)+'</span><button type="button" data-i="'+i+'">'+t("remove")+"</button></div>"}).join(""):'<div class="empty">'+t("emptyPlan")+"</div>";
-  el("planItems").querySelectorAll("button").forEach(function(b){b.onclick=function(){plan.splice(+b.dataset.i,1);renderPlan()}});
+  el("planItems").querySelectorAll("button").forEach(function(b){b.onclick=function(){plan.splice(+b.dataset.i,1);localStorage.setItem("vr_plan",JSON.stringify(plan));renderPlan()}});
   if(!plan.length){el("planTotals").innerHTML="";return}
   var totals=new Map();
   function add(m,k,n){m.set(k,(m.get(k)||0)+n)}
@@ -277,11 +278,14 @@ el("plus").onclick=function(){el("quantity").value=Math.min(999999,(+el("quantit
 el("recursive").onchange=render;
 el("alt").onchange=function(){render();renderPlan()};
 el("addPlan").onclick=addCurrent;
-el("clearPlan").onclick=function(){plan=[];renderPlan()};
+el("clearPlan").onclick=function(){plan=[];localStorage.removeItem("vr_plan");renderPlan()};
+el("farmPlan").onclick=function(){if(!plan.length){activateView("plan");return}activateView("farm");renderFarmFromPlan()};
 el("langPT").onclick=function(){lang="pt-BR";applyLanguage()};
 el("langEN").onclick=function(){lang="en";applyLanguage()};
 function saveState(){localStorage.setItem("vr_inventory",JSON.stringify(inventory));localStorage.setItem("vr_favorites",JSON.stringify(favorites))}
 function requiredTotals(){var c=calculate(selected,Math.max(1,+el("quantity").value||1),true,el("alt").checked);return c.totals}
+function planTotalsMap(){var totals=new Map();function add(k,n){totals.set(k,(totals.get(k)||0)+n)}plan.forEach(function(p){calculate(p.id,p.qty,true,el("alt").checked).totals.forEach(function(n,id){add(id,n)})});return totals}
+function renderFarmFromPlan(){var totals=planTotalsMap(),missing=Array.from(totals.entries()).map(function(p){return [p[0],Math.max(0,p[1]-(inventory[p[0]]||0)),inventory[p[0]]||0,p[1]]}).filter(function(p){return p[1]>0});el("farmSummary").innerHTML='<div class="stat"><b>'+fmt(plan.length)+'</b> itens na lista</div><div class="stat"><b>'+fmt(missing.length)+'</b> materiais faltando</div><div class="stat"><b>'+fmt(missing.reduce(function(a,p){return a+p[1]},0))+'</b> unidades para farmar</div>';el("farmMaterials").innerHTML=missing.length?missing.sort(function(a,b){return b[1]-a[1]}).map(function(p){return '<div class="material farm-material"><div class="material-left"><div class="item-icon">'+iconHTML(p[0])+'</div><div><div class="material-name">'+itemName(p[0])+'</div><span class="owned">Tenho '+fmt(p[2])+' · Preciso '+fmt(p[3])+'</span></div></div><b class="shortage">+'+fmt(p[1])+'</b></div>'}).join(""):'<div class="empty">🎉 Você já possui tudo para a lista.</div>'}
 function renderInventory(){
   var raw=Array.from(items.values()).filter(function(x){return !recipeFor(x.id).length}).sort(function(a,b){return itemName(a.id).localeCompare(itemName(b.id),lang)});
   el("inventoryGrid").innerHTML=raw.map(function(x){return '<div class="inv-item"><div class="item-icon">'+iconHTML(x.id)+'</div><div class="inv-main"><div class="inv-name">'+itemName(x.id)+'</div></div><input class="inv-input" type="number" min="0" value="'+(inventory[x.id]||0)+'" data-id="'+x.id+'"></div>'}).join("");
