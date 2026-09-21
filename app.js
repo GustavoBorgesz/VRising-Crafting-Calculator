@@ -66,6 +66,8 @@ let selected="SludgeFilledCanister",plan=[];
 let activeFilter="all";
 let inventory=JSON.parse(localStorage.getItem("vr_inventory")||"{}");
 let favorites=JSON.parse(localStorage.getItem("vr_favorites")||"[]");
+let recent=JSON.parse(localStorage.getItem("vr_recent")||"[]");
+let treeScale=1;
 
 function iconUrl(id){
   var p=window.ICONS&&window.ICONS[id];
@@ -84,6 +86,7 @@ function iconFallback(img){
 function el(id){return document.getElementById(id)}
 function t(key){return I18N[lang][key]||key}
 function itemName(id){var x=items.get(id);return x?(lang==="pt-BR"?(PT[id]||x.name):x.name):id}
+function categoryOf(id){var metal=/Iron|Copper|Silver|Gold|DarkSilver|Ingot|Coin|Ore|Radium|PowerCore|Battery/.test(id);if(metal)return "metal";var textile=/Thread|Cloth|Leather|Hide|Silk|Yarn|Cotton|Carpet|Weave/.test(id);if(textile)return "textile";var alchemy=/Grease|Sludge|Sulphur|Venom|Oil|Glass|Ember|Scourge|Spectral|Dust|Onyx/.test(id);if(alchemy)return "alchemy";return recipeFor(id).length?"craftable":"raw"}
 function recipeFor(id){return byProduct.get(id)||[]}
 function fmt(n){return Number.isInteger(n)?n.toLocaleString(lang):n.toLocaleString(lang,{maximumFractionDigits:2})}
 function calculate(id,qty,recursive,useAlt){
@@ -114,6 +117,7 @@ function applyLanguage(){
 function selectItem(id){
   if(!items.has(id))return;
   selected=id;el("quantity").value=1;el("search").value="";el("suggestions").innerHTML="";
+recent=[id].concat(recent.filter(function(x){return x!==id})).slice(0,8);localStorage.setItem("vr_recent",JSON.stringify(recent));
   renderItemList();render();
 }
 function renderItemList(){
@@ -121,7 +125,8 @@ function renderItemList(){
   var found=Array.from(items.values()).filter(function(x){
   var matches=!q||itemName(x.id).toLowerCase().indexOf(q)!==-1||x.name.toLowerCase().indexOf(q)!==-1;
   var type=recipeFor(x.id).length?"craftable":"raw";
-  return matches&&(activeFilter==="all"||activeFilter===type);
+  var cat=categoryOf(x.id),fav=favorites.indexOf(x.id)!==-1;
+  return matches&&(activeFilter==="all"||activeFilter===type||(activeFilter==="favorite"&&fav)||(activeFilter===cat));
 });
   el("itemCount").textContent=found.length+" "+t("count");
   el("itemList").innerHTML=found.map(function(x){
@@ -183,6 +188,7 @@ function drawTreeLines(){
   });
   svg.setAttribute("width",canvas.scrollWidth);svg.setAttribute("height",canvas.scrollHeight);
   el("treePath").setAttribute("d",d);
+el("treeCanvas").style.transform="scale("+treeScale+")";el("treeZoom").textContent=Math.round(treeScale*100)+"%";
 }
 function renderTree(qty,recursive,alt){
   var root=el("treeRoot");root.innerHTML="";
@@ -313,6 +319,12 @@ el("saveProject").onclick=saveProject;
 el("exportData").onclick=exportAll;
 el("importData").onclick=function(){el("importFile").click()};
 el("importFile").onchange=function(){if(this.files[0])importAll(this.files[0])};
+el("compactToggle").onclick=function(){document.body.classList.toggle("compact");var on=document.body.classList.contains("compact");localStorage.setItem("vr_compact",on?"1":"0");this.textContent=on?"● Compacto":"◐ Compacto"};
+el("treeMinus").onclick=function(){treeScale=Math.max(.5,Math.round((treeScale-.1)*10)/10);drawTreeLines()};
+el("treePlus").onclick=function(){treeScale=Math.min(1.8,Math.round((treeScale+.1)*10)/10);drawTreeLines()};
+el("treeReset").onclick=function(){treeScale=1;drawTreeLines()};
+document.addEventListener("keydown",function(e){if(e.target.matches("input,textarea"))return;if(e.key==="/"){e.preventDefault();el("search").focus()}if(e.key==="Escape"){el("search").value="";el("suggestions").innerHTML="";renderItemList()}if(e.key==="+"||e.key==="="){el("plus").click()}if(e.key==="-"||e.key==="_"){el("minus").click()}if(e.key==="1")activateView("calculator");if(e.key==="2")activateView("tree");if(e.key==="3")activateView("map");if(e.key==="4")activateView("farm");if(e.key==="5")activateView("inventory");if(e.key==="6")activateView("plan")});
+if(localStorage.getItem("vr_compact")==="1"){document.body.classList.add("compact");el("compactToggle").textContent="● Compacto"}
 el("dataVersion").textContent="Dados: "+D.version+" · "+t("chooseItem");
 renderInventory();renderFarm();updateFavoriteButton();
 initMap();
