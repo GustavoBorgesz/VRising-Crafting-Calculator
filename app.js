@@ -89,7 +89,12 @@ function iconFallback(img){
 function el(id){return document.getElementById(id)}
 function t(key){return I18N[lang][key]||key}
 function itemName(id){var x=items.get(id);return x?(lang==="pt-BR"?(PT[id]||x.name):x.name):id}
-function categoryOf(id){var metal=/Iron|Copper|Silver|Gold|DarkSilver|Ingot|Coin|Ore|Radium|PowerCore|Battery/.test(id);if(metal)return "metal";var textile=/Thread|Cloth|Leather|Hide|Silk|Yarn|Cotton|Carpet|Weave/.test(id);if(textile)return "textile";var alchemy=/Grease|Sludge|Sulphur|Venom|Oil|Glass|Ember|Scourge|Spectral|Dust|Onyx/.test(id);if(alchemy)return "alchemy";return recipeFor(id).length?"craftable":"raw"}
+function categoryOf(id){
+  if(/Iron|Copper|Silver|Gold|DarkSilver|Ingot|Coin|Ore|Radium|PowerCore|Battery/.test(id))return "metal";
+  if(/Thread|Cloth|Leather|Hide|Silk|Yarn|Cotton|Carpet|Weave/.test(id))return "textile";
+  if(/Grease|Sludge|Sulphur|Venom|Oil|Glass|Ember|Scourge|Spectral|Dust|Onyx/.test(id))return "alchemy";
+  return recipeFor(id).length?"craftable":"raw";
+}
 function recipeFor(id){return byProduct.get(id)||[]}
 function fmt(n){return Number.isInteger(n)?n.toLocaleString(lang):n.toLocaleString(lang,{maximumFractionDigits:2})}
 function calculate(id,qty,recursive,useAlt){
@@ -129,7 +134,13 @@ function renderItemList(){
   var matches=!q||itemName(x.id).toLowerCase().indexOf(q)!==-1||x.name.toLowerCase().indexOf(q)!==-1;
   var type=recipeFor(x.id).length?"craftable":"raw";
   var cat=categoryOf(x.id),fav=favorites.indexOf(x.id)!==-1;
-  return matches&&(activeFilter==="all"||activeFilter===type||(activeFilter==="favorite"&&fav)||(activeFilter===cat));
+  var matchesFilter=
+    activeFilter==="all" ||
+    (activeFilter==="craftable" && type==="craftable") ||
+    (activeFilter==="raw" && type==="raw") ||
+    (activeFilter==="favorite" && fav) ||
+    (activeFilter===cat);
+  return matches && matchesFilter;
 });
   el("itemCount").textContent=found.length+" "+t("count");
   el("itemList").innerHTML=found.map(function(x){
@@ -244,18 +255,23 @@ function addCurrent(){
   if(i)i.qty+=qty;else plan.push({id:selected,qty:qty});localStorage.setItem("vr_plan",JSON.stringify(plan));renderPlan();
 }
 function activateView(view){
-  document.querySelectorAll(".view-btn[data-view]").forEach(function(b){b.classList.toggle("active",b.dataset.view===view)});
-  var calc=document.querySelector(".calculator");
-  if(calc) calc.style.display=view==="calculator"?"grid":"none";
-  document.querySelectorAll(".feature-panel").forEach(function(panel){panel.classList.remove("active")});
+  document.querySelectorAll(".view-btn[data-view]").forEach(function(b){
+    b.classList.toggle("active",b.dataset.view===view);
+  });
   var target=null;
-  if(view==="tree") target=document.querySelector(".tree-panel");
-  else if(view==="map") target=document.querySelector(".map-panel");
-  else if(view==="farm") target=document.querySelector(".farm-panel");
-  else if(view==="inventory") target=document.querySelector(".inventory-panel");
-  else if(view==="plan") target=document.querySelector(".plan.feature-panel");
-  if(target){target.classList.add("active");if(view==="farm")renderFarm();if(view==="inventory")renderInventory();if(view==="plan")renderPlan();if(view==="tree")requestAnimationFrame(drawTreeLines);requestAnimationFrame(function(){target.scrollIntoView({behavior:"smooth",block:"start"})})}
-  else if(view==="calculator"){window.scrollTo({top:0,behavior:"smooth"});render()}
+  if(view==="calculator") target=document.querySelector(".calculator");
+  else if(view==="tree") target=document.querySelector("#mainTree");
+  else if(view==="map") target=document.querySelector("#resourceMap");
+  else if(view==="farm") target=document.querySelector("#farmPanel");
+  else if(view==="inventory") target=document.querySelector("#inventoryPanel");
+  else if(view==="plan") target=document.querySelector("#planPanel");
+  if(target){
+    if(view==="farm") renderFarm();
+    if(view==="inventory") renderInventory();
+    if(view==="plan") renderPlan();
+    if(view==="tree") requestAnimationFrame(drawTreeLines);
+    target.scrollIntoView({behavior:"smooth",block:"start"});
+  }
 }
 function renderPlan(){
   el("planItems").innerHTML=plan.length?plan.map(function(p,i){return '<div class="plan-row"><span>'+iconHTML(p.id)+' &nbsp;'+itemName(p.id)+' × '+fmt(p.qty)+'</span><button type="button" data-i="'+i+'">'+t("remove")+"</button></div>"}).join(""):'<div class="empty">'+t("emptyPlan")+"</div>";
@@ -320,7 +336,13 @@ el("copy").onclick=async function(){
 };
 I18N["pt-BR"].craftingRecipe="Receita de fabricação";
 I18N.en.craftingRecipe="Crafting recipe";
-document.querySelectorAll(".filter").forEach(function(b){b.onclick=function(){activeFilter=b.dataset.filter;document.querySelectorAll(".filter").forEach(function(x){x.classList.remove("active")});b.classList.add("active");renderItemList()}});
+document.querySelector(".filter-row").addEventListener("click",function(e){
+  var b=e.target.closest(".filter");
+  if(!b)return;
+  activeFilter=b.dataset.filter||"all";
+  document.querySelectorAll(".filter-row .filter").forEach(function(x){x.classList.toggle("active",x===b)});
+  renderItemList();
+});
 el("favorite").onclick=function(){var i=favorites.indexOf(selected);if(i===-1)favorites.push(selected);else favorites.splice(i,1);saveState();updateFavoriteButton()};
 el("clearInventory").onclick=function(){inventory={};saveState();renderInventory();renderFarm()};
 el("clearInventoryFarm").onclick=function(){inventory={};saveState();renderInventory();renderFarm()};
