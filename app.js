@@ -41,7 +41,7 @@ copyMaterialsDefault:"Copiar materiais",count:"itens",footer:"Fan-made project �
 chooseItem:"Escolha um item na lista ou pela busca.",
 mapEyebrow:"MAPA DE RECURSOS",mapTitle:"Onde farmar os materiais",mapHint:"Regiões onde ficam os materiais do item escolhido. Esquema aproximado, não é o mapa oficial.",mapLink:"Mapa interativo ↗",mapNoLoc:"Local ainda não mapeado",mapEmpty:"Nenhum material deste item tem local mapeado ainda.",mapAria:"Esquema aproximado do mapa de Vardoran",
 treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo.",
-viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewPlan:"☷ Minha lista"
+viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewFarm:"⛏ Farm",viewInventory:"▣ Inventário",viewPlan:"☷ Minha lista",saved:"✓ Projeto salvo",exported:"✓ Dados exportados",imported:"✓ Dados importados"
 },
 "en":{
 eyebrow:"MATERIAL CALCULATOR",heroTitle:"How much do I need to farm?",
@@ -58,7 +58,7 @@ copyMaterialsDefault:"Copy materials",count:"items",footer:"Fan-made project · 
 chooseItem:"Choose an item from the list or search.",
 mapEyebrow:"RESOURCE MAP",mapTitle:"Where to farm the materials",mapHint:"Regions where the chosen item's materials are found. Approximate schematic, not the official map.",mapLink:"Interactive map ↗",mapNoLoc:"Location not mapped yet",mapEmpty:"None of this item's materials have a mapped location yet.",mapAria:"Approximate schematic of the Vardoran map",
 treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it.",
-viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewPlan:"☷ My list"
+viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewFarm:"⛏ Farm",viewInventory:"▣ Inventory",viewPlan:"☷ My list",saved:"✓ Project saved",exported:"✓ Data exported",imported:"✓ Data imported"
 }
 };
 let lang="pt-BR";
@@ -242,21 +242,18 @@ function addCurrent(){
   if(i)i.qty+=qty;else plan.push({id:selected,qty:qty});localStorage.setItem("vr_plan",JSON.stringify(plan));renderPlan();
 }
 function activateView(view){
-  document.querySelectorAll(".view-btn").forEach(function(b){
-    b.classList.toggle("active",b.dataset.view===view);
-  });
+  document.querySelectorAll(".view-btn[data-view]").forEach(function(b){b.classList.toggle("active",b.dataset.view===view)});
   var calc=document.querySelector(".calculator");
-  calc.style.display=view==="calculator"?"grid":"none";
-  document.querySelectorAll(".feature-panel").forEach(function(panel){
-    panel.classList.toggle("active",panel.classList.contains(view+"-panel")||(view==="plan"&&panel.classList.contains("plan")));
-  });
-  if(view==="tree") requestAnimationFrame(drawTreeLines);
-  if(view!=="calculator"){
-    var target=document.querySelector("."+view+"-panel");
-    if(target) target.scrollIntoView({behavior:"smooth",block:"start"});
-  }else{
-    window.scrollTo({top:0,behavior:"smooth"});
-  }
+  if(calc) calc.style.display=view==="calculator"?"grid":"none";
+  document.querySelectorAll(".feature-panel").forEach(function(panel){panel.classList.remove("active")});
+  var target=null;
+  if(view==="tree") target=document.querySelector(".tree-panel");
+  else if(view==="map") target=document.querySelector(".map-panel");
+  else if(view==="farm") target=document.querySelector(".farm-panel");
+  else if(view==="inventory") target=document.querySelector(".inventory-panel");
+  else if(view==="plan") target=document.querySelector(".plan.feature-panel");
+  if(target){target.classList.add("active");if(view==="farm")renderFarm();if(view==="inventory")renderInventory();if(view==="plan")renderPlan();if(view==="tree")requestAnimationFrame(drawTreeLines);requestAnimationFrame(function(){target.scrollIntoView({behavior:"smooth",block:"start"})})}
+  else if(view==="calculator"){window.scrollTo({top:0,behavior:"smooth"});render()}
 }
 function renderPlan(){
   el("planItems").innerHTML=plan.length?plan.map(function(p,i){return '<div class="plan-row"><span>'+iconHTML(p.id)+' &nbsp;'+itemName(p.id)+' × '+fmt(p.qty)+'</span><button type="button" data-i="'+i+'">'+t("remove")+"</button></div>"}).join(""):'<div class="empty">'+t("emptyPlan")+"</div>";
@@ -300,12 +297,20 @@ function renderFarm(){
 function updateFavoriteButton(){
   var on=favorites.indexOf(selected)!==-1;el("favorite").classList.toggle("active",on);el("favorite").textContent=on?"★ Favoritado":"☆ Favoritar";
 }
-function saveProject(){
-  var project={selected:selected,quantity:+el("quantity").value||1,recursive:el("recursive").checked,alt:el("alt").checked,plan:plan,inventory:inventory,created:new Date().toISOString()};
-  var blob=new Blob([JSON.stringify(project,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="v-rising-projeto.json";a.click();URL.revokeObjectURL(a.href);
+function downloadJSON(filename,data){
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);
 }
-function exportAll(){var data={selected:selected,quantity:+el("quantity").value||1,plan:plan,inventory:inventory,favorites:favorites};var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="v-rising-calculadora.json";a.click();URL.revokeObjectURL(a.href)}
-function importAll(file){var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result);inventory=d.inventory||{};favorites=d.favorites||[];plan=d.plan||[];if(d.selected&&items.has(d.selected))selected=d.selected;if(d.quantity)el("quantity").value=d.quantity;saveState();renderInventory();renderFarm();renderPlan();render();updateFavoriteButton()}catch(e){alert("Arquivo inválido.")}};rd.readAsText(file)}
+function toast(message){
+  var n=el("appToast");if(!n){n=document.createElement("div");n.id="appToast";document.body.appendChild(n)}
+  n.textContent=message;n.classList.add("show");clearTimeout(window.__toast);window.__toast=setTimeout(function(){n.classList.remove("show")},1800);
+}
+function saveProject(){
+  downloadJSON("v-rising-projeto.json",{version:1,selected:selected,quantity:+el("quantity").value||1,recursive:el("recursive").checked,alt:el("alt").checked,plan:plan,inventory:inventory,favorites:favorites,created:new Date().toISOString()});
+  toast(t("saved"));
+}
+function exportAll(){downloadJSON("v-rising-calculadora.json",{version:1,selected:selected,quantity:+el("quantity").value||1,recursive:el("recursive").checked,alt:el("alt").checked,plan:plan,inventory:inventory,favorites:favorites,recent:recent,exported:new Date().toISOString()});toast(t("exported"))}
+function importAll(file){var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result);inventory=d.inventory||{};favorites=d.favorites||[];plan=d.plan||[];if(d.selected&&items.has(d.selected))selected=d.selected;if(d.quantity)el("quantity").value=d.quantity;saveState();localStorage.setItem("vr_plan",JSON.stringify(plan));renderInventory();renderFarm();renderPlan();render();updateFavoriteButton();toast(t("imported"))}catch(e){alert("Arquivo inválido.")}};rd.readAsText(file)}
 el("copy").onclick=async function(){
   var c=calculate(selected,+el("quantity").value,el("recursive").checked,el("alt").checked),lines=[itemName(selected)+" × "+el("quantity").value,""];
   c.totals.forEach(function(n,id){lines.push("- "+itemName(id)+": "+fmt(n))});
