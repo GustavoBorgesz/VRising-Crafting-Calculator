@@ -241,7 +241,7 @@ function activateView(view){
   var calc=document.querySelector(".calculator");
   calc.style.display=view==="calculator"?"grid":"none";
   document.querySelectorAll(".feature-panel").forEach(function(panel){
-    panel.classList.toggle("active",panel.classList.contains(view+"-panel"));
+    panel.classList.toggle("active",panel.classList.contains(view+"-panel")||(view==="plan"&&panel.classList.contains("plan")));
   });
   if(view==="tree") requestAnimationFrame(drawTreeLines);
   if(view!=="calculator"){
