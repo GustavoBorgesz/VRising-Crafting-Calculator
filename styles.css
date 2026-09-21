@@ -77,3 +77,4 @@ footer{display:flex;justify-content:space-between;gap:15px;color:#596170;font-si
 .utility-btn{margin-left:auto!important}
 body.compact .hero{padding:14px 0 10px}body.compact .hero h1{font-size:25px}body.compact .view-nav{margin-bottom:10px}body.compact .calculator,.compact .feature-panel{gap:10px}body.compact .panel{padding:13px}body.compact .item-list{max-height:210px}body.compact .material{padding:6px 8px}body.compact .controls label{margin-top:7px}
 @media(max-width:800px){.tree-tools{order:2}.tree-legend{order:3}.plan-head{flex-wrap:wrap}.utility-btn{margin-left:0!important}}
+.plan-actions{display:flex;align-items:center;gap:7px}.plan-actions .secondary{margin:0;width:auto}.plan-actions .ghost{margin:0}
