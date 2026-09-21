@@ -39,6 +39,7 @@ produces:"Produz",perRecipe:"por receita",noRecipe:"Matéria-prima / sem receita
 noIngredients:"Este item não possui ingredientes cadastrados.",remove:"remover",copied:"✓ Copiado",
 copyMaterialsDefault:"Copiar materiais",count:"itens",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Escolha um item na lista ou pela busca.",
+farmEyebrow:"MODO FARM",farmTitle:"O que preciso farmar?",farmHint:"Mostra somente o que falta depois de descontar seu inventário.",inventoryEyebrow:"INVENTÁRIO",inventoryTitle:"O que eu já tenho?",inventoryHint:"Informe quanto você possui de cada material.",zero:"Zerar",saveProject:"💾 Salvar projeto",exportData:"⬇ Exportar",importData:"⬆ Importar",
 mapEyebrow:"MAPA DE RECURSOS",mapTitle:"Onde farmar os materiais",mapHint:"Regiões onde ficam os materiais do item escolhido. Esquema aproximado, não é o mapa oficial.",mapLink:"Mapa interativo ↗",mapNoLoc:"Local ainda não mapeado",mapEmpty:"Nenhum material deste item tem local mapeado ainda.",mapAria:"Esquema aproximado do mapa de Vardoran",
 treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo.",
 viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewFarm:"⛏ Farm",viewInventory:"▣ Inventário",viewPlan:"☷ Minha lista",saved:"✓ Projeto salvo",exported:"✓ Dados exportados",imported:"✓ Dados importados"
@@ -56,6 +57,7 @@ produces:"Produces",perRecipe:"per recipe",noRecipe:"Raw material / no recipe",n
 noIngredients:"This item has no registered ingredients.",remove:"remove",copied:"✓ Copied",
 copyMaterialsDefault:"Copy materials",count:"items",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Choose an item from the list or search.",
+farmEyebrow:"FARM MODE",farmTitle:"What do I need to farm?",farmHint:"Shows only what is missing after subtracting your inventory.",inventoryEyebrow:"INVENTORY",inventoryTitle:"What do I already have?",inventoryHint:"Enter how much of each material you have.",zero:"Reset",saveProject:"💾 Save project",exportData:"⬇ Export",importData:"⬆ Import",
 mapEyebrow:"RESOURCE MAP",mapTitle:"Where to farm the materials",mapHint:"Regions where the chosen item's materials are found. Approximate schematic, not the official map.",mapLink:"Interactive map ↗",mapNoLoc:"Location not mapped yet",mapEmpty:"None of this item's materials have a mapped location yet.",mapAria:"Approximate schematic of the Vardoran map",
 treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it.",
 viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewFarm:"⛏ Farm",viewInventory:"▣ Inventory",viewPlan:"☷ My list",saved:"✓ Project saved",exported:"✓ Data exported",imported:"✓ Data imported"
