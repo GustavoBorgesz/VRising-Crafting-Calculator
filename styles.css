@@ -81,3 +81,8 @@ body.compact .hero{padding:14px 0 10px}body.compact .hero h1{font-size:25px}body
 /* Detailed crafting options */
 .detailed-toggle{align-items:flex-start;padding:14px 0}.detailed-toggle>div{min-width:0;flex:1;padding-right:8px}.detailed-toggle strong{display:block;line-height:1.35}.detailed-toggle small{line-height:1.45}.detailed-toggle .toggle-example{color:#6f7888;font-size:10px;margin-top:5px}.detailed-toggle .switch{flex:none;margin-top:2px}
 @media(max-width:480px){.detailed-toggle strong{font-size:11px}.detailed-toggle small{font-size:10px}.detailed-toggle .toggle-example{font-size:9px}}
+
+/* Tree-first hierarchy */
+.tree-panel{order:1}.results{order:2}.calculator{display:grid}
+.results.summary-results{min-height:0}
+@media(min-width:801px){.tree-panel{padding:24px}.results{padding:18px}}
