@@ -63,6 +63,9 @@ viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewPlan:"
 };
 let lang="pt-BR";
 let selected="SludgeFilledCanister",plan=[];
+let activeFilter="all";
+let inventory=JSON.parse(localStorage.getItem("vr_inventory")||"{}");
+let favorites=JSON.parse(localStorage.getItem("vr_favorites")||"[]");
 
 function iconUrl(id){
   var p=window.ICONS&&window.ICONS[id];
@@ -115,7 +118,11 @@ function selectItem(id){
 }
 function renderItemList(){
   var q=el("search").value.trim().toLowerCase();
-  var found=Array.from(items.values()).filter(function(x){return !q||itemName(x.id).toLowerCase().indexOf(q)!==-1||x.name.toLowerCase().indexOf(q)!==-1});
+  var found=Array.from(items.values()).filter(function(x){
+  var matches=!q||itemName(x.id).toLowerCase().indexOf(q)!==-1||x.name.toLowerCase().indexOf(q)!==-1;
+  var type=recipeFor(x.id).length?"craftable":"raw";
+  return matches&&(activeFilter==="all"||activeFilter===type);
+});
   el("itemCount").textContent=found.length+" "+t("count");
   el("itemList").innerHTML=found.map(function(x){
     return '<button type="button" class="item-option '+(x.id===selected?"selected-item":"")+'" data-id="'+x.id+'"><span class="item-option-icon">'+iconHTML(x.id)+'</span><span>'+itemName(x.id)+'</span></button>';
@@ -267,6 +274,28 @@ el("addPlan").onclick=addCurrent;
 el("clearPlan").onclick=function(){plan=[];renderPlan()};
 el("langPT").onclick=function(){lang="pt-BR";applyLanguage()};
 el("langEN").onclick=function(){lang="en";applyLanguage()};
+function saveState(){localStorage.setItem("vr_inventory",JSON.stringify(inventory));localStorage.setItem("vr_favorites",JSON.stringify(favorites))}
+function requiredTotals(){var c=calculate(selected,Math.max(1,+el("quantity").value||1),true,el("alt").checked);return c.totals}
+function renderInventory(){
+  var raw=Array.from(items.values()).filter(function(x){return !recipeFor(x.id).length}).sort(function(a,b){return itemName(a.id).localeCompare(itemName(b.id),lang)});
+  el("inventoryGrid").innerHTML=raw.map(function(x){return '<div class="inv-item"><div class="item-icon">'+iconHTML(x.id)+'</div><div class="inv-main"><div class="inv-name">'+itemName(x.id)+'</div></div><input class="inv-input" type="number" min="0" value="'+(inventory[x.id]||0)+'" data-id="'+x.id+'"></div>'}).join("");
+  el("inventoryGrid").querySelectorAll(".inv-input").forEach(function(inp){inp.oninput=function(){inventory[inp.dataset.id]=Math.max(0,+inp.value||0);saveState();renderFarm()}});
+}
+function renderFarm(){
+  var totals=requiredTotals(),entries=Array.from(totals.entries()).filter(function(p){return p[1]>0});
+  var missing=entries.map(function(p){return [p[0],Math.max(0,p[1]-(inventory[p[0]]||0)),inventory[p[0]]||0,p[1]]}).filter(function(p){return p[1]>0});
+  el("farmSummary").innerHTML='<div class="stat"><b>'+fmt(entries.length)+'</b> materiais necessários</div><div class="stat"><b>'+fmt(missing.length)+'</b> materiais faltando</div><div class="stat"><b>'+fmt(entries.reduce(function(a,p){return a+p[1]},0))+'</b> unidades totais</div>';
+  el("farmMaterials").innerHTML=missing.length?missing.sort(function(a,b){return b[1]-a[1]}).map(function(p){return '<div class="material farm-material"><div class="material-left"><div class="item-icon">'+iconHTML(p[0])+'</div><div><div class="material-name">'+itemName(p[0])+'</div><span class="owned">Tenho '+fmt(p[2])+' · Preciso '+fmt(p[3])+'</span></div></div><b class="shortage">+'+fmt(p[1])+'</b></div>'}).join(""):'<div class="empty">🎉 Você já possui todos os materiais necessários.</div>';
+}
+function updateFavoriteButton(){
+  var on=favorites.indexOf(selected)!==-1;el("favorite").classList.toggle("active",on);el("favorite").textContent=on?"★ Favoritado":"☆ Favoritar";
+}
+function saveProject(){
+  var project={selected:selected,quantity:+el("quantity").value||1,recursive:el("recursive").checked,alt:el("alt").checked,plan:plan,inventory:inventory,created:new Date().toISOString()};
+  var blob=new Blob([JSON.stringify(project,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="v-rising-projeto.json";a.click();URL.revokeObjectURL(a.href);
+}
+function exportAll(){var data={selected:selected,quantity:+el("quantity").value||1,plan:plan,inventory:inventory,favorites:favorites};var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="v-rising-calculadora.json";a.click();URL.revokeObjectURL(a.href)}
+function importAll(file){var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result);inventory=d.inventory||{};favorites=d.favorites||[];plan=d.plan||[];if(d.selected&&items.has(d.selected))selected=d.selected;if(d.quantity)el("quantity").value=d.quantity;saveState();renderInventory();renderFarm();renderPlan();render();updateFavoriteButton()}catch(e){alert("Arquivo inválido.")}};rd.readAsText(file)}
 el("copy").onclick=async function(){
   var c=calculate(selected,+el("quantity").value,el("recursive").checked,el("alt").checked),lines=[itemName(selected)+" × "+el("quantity").value,""];
   c.totals.forEach(function(n,id){lines.push("- "+itemName(id)+": "+fmt(n))});
@@ -274,6 +303,17 @@ el("copy").onclick=async function(){
 };
 I18N["pt-BR"].craftingRecipe="Receita de fabricação";
 I18N.en.craftingRecipe="Crafting recipe";
+document.querySelectorAll(".filter").forEach(function(b){b.onclick=function(){activeFilter=b.dataset.filter;document.querySelectorAll(".filter").forEach(function(x){x.classList.remove("active")});b.classList.add("active");renderItemList()}});
+el("favorite").onclick=function(){var i=favorites.indexOf(selected);if(i===-1)favorites.push(selected);else favorites.splice(i,1);saveState();updateFavoriteButton()};
+el("clearInventory").onclick=function(){inventory={};saveState();renderInventory();renderFarm()};
+el("clearInventoryFarm").onclick=function(){inventory={};saveState();renderInventory();renderFarm()};
+el("copyFarm").onclick=async function(){var totals=requiredTotals(),lines=["FARM — "+itemName(selected)+" × "+el("quantity").value,""];totals.forEach(function(n,id){var f=Math.max(0,n-(inventory[id]||0));if(f)lines.push("- "+itemName(id)+": "+fmt(f))});await navigator.clipboard.writeText(lines.join("\n"));el("copyFarm").textContent="✓ Copiado";setTimeout(function(){el("copyFarm").textContent="📋 Copiar lista de farm"},1200)};
+el("markFarmed").onclick=function(){requiredTotals().forEach(function(n,id){inventory[id]=n});saveState();renderInventory();renderFarm()};
+el("saveProject").onclick=saveProject;
+el("exportData").onclick=exportAll;
+el("importData").onclick=function(){el("importFile").click()};
+el("importFile").onchange=function(){if(this.files[0])importAll(this.files[0])};
 el("dataVersion").textContent="Dados: "+D.version+" · "+t("chooseItem");
+renderInventory();renderFarm();updateFavoriteButton();
 initMap();
 applyLanguage();
