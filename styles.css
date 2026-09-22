@@ -269,3 +269,265 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   .inv-item.contextual .inv-input{width:70px;min-height:40px;font-size:12px}
   .inv-range{height:24px}
 }
+
+
+/* V Rising inspired dashboard layout */
+:root{
+  --vr-blue:#0a1521;
+  --vr-blue-2:#0d1d2b;
+  --vr-red:#a91f3b;
+  --vr-red-bright:#e33a58;
+  --sidebar-w:226px;
+}
+
+/* Official V Rising artwork is used as atmospheric UI decoration. */
+.topbar{
+  height:82px;
+  padding:0 28px;
+  background:
+    linear-gradient(90deg,rgba(4,8,13,.96) 0%,rgba(4,8,13,.72) 45%,rgba(4,8,13,.82) 100%),
+    url("https://a.storyblok.com/f/204235/3840x2160/ee510e6305/updated-hero-background.jpg/m/fit-in/2560x1440") center 42% / cover no-repeat;
+  border-bottom:1px solid #27384a;
+}
+.brand{gap:14px}
+.brand-logo{width:118px;height:42px;object-fit:contain;object-position:left center;filter:drop-shadow(0 3px 10px #000)}
+.brand strong{font-size:12px;letter-spacing:2.4px;color:#dce7f2}
+.brand small{color:#70859a;letter-spacing:1.5px}
+.bat{display:none}
+.top-actions{background:#08111b99;border:1px solid #263746;border-radius:10px;padding:4px 6px;backdrop-filter:blur(8px)}
+
+.shell{
+  width:auto;
+  max-width:none;
+  margin:0 0 0 calc(var(--sidebar-w) + 22px);
+  padding:28px 30px 40px;
+  padding-right:30px;
+}
+
+.hero{
+  max-width:900px;
+  margin-bottom:18px;
+  padding:4px 2px;
+}
+.hero h1{font-size:clamp(26px,3.2vw,42px);margin-bottom:8px}
+.hero p:not(.eyebrow){font-size:13px;max-width:760px;color:#7f91a3}
+
+/* Desktop left navigation becomes the application sidebar. */
+.view-nav{
+  position:fixed;
+  left:0;
+  top:82px;
+  bottom:0;
+  width:var(--sidebar-w);
+  height:auto;
+  margin:0;
+  padding:18px 12px 210px;
+  border:0;
+  border-right:1px solid #223140;
+  border-radius:0;
+  background:
+    linear-gradient(180deg,rgba(5,11,17,.98) 0%,rgba(5,11,17,.94) 54%,rgba(5,11,17,.72) 100%),
+    url("https://a.storyblok.com/f/204235/3228x1647/d2829d2df1/about-scene_brorsan.png/m/fit-in/2560x1440") center bottom / 100% auto no-repeat;
+  box-shadow:12px 0 40px #0007;
+  flex-direction:column;
+  align-items:stretch;
+  gap:5px;
+  overflow:hidden;
+  backdrop-filter:none;
+}
+.view-nav::after{
+  content:"V RISING";
+  position:absolute;
+  left:18px;
+  bottom:18px;
+  color:#6d7f90;
+  font-size:9px;
+  letter-spacing:2px;
+  opacity:.7;
+}
+.view-btn{
+  flex:none;
+  width:100%;
+  min-width:0;
+  min-height:42px;
+  text-align:left;
+  padding:10px 13px;
+  border-radius:8px;
+  border-color:transparent;
+  color:#8da0b3;
+}
+.view-btn:hover{background:#12202d;color:#e8f0f7}
+.view-btn.active{
+  background:linear-gradient(90deg,#7e1933,#521324 75%,transparent);
+  border-color:#8e2942;
+  box-shadow:inset 3px 0 0 #e33a58,0 8px 22px #0003;
+  color:#fff;
+}
+.utility-btn{margin:8px 0 0!important;border-top:1px solid #23313f;border-radius:0;padding-top:18px}
+
+/* Workspace: crafting tree dominates the center, stock stays visible at right. */
+.calculator{
+  grid-template-columns:minmax(0,1fr) minmax(300px,350px);
+  grid-template-rows:auto minmax(430px,auto) auto;
+  gap:14px;
+  align-items:start;
+}
+.controls{
+  grid-column:1;
+  grid-row:1;
+  padding:16px 18px;
+  background:linear-gradient(145deg,#101b27ee,#0b121bf4);
+}
+.controls .item-list{max-height:150px}
+.controls .selected{margin:10px 0 12px}
+.controls .toggle-row{padding:9px 0}
+.controls .primary{margin-top:10px}
+.controls .secondary{margin-top:6px}
+
+.tree-panel{
+  grid-column:1;
+  grid-row:2;
+  margin-top:0;
+  min-height:430px;
+  background:
+    radial-gradient(circle at 50% 30%,#10283b66,transparent 48%),
+    linear-gradient(145deg,#0d1722f5,#081019f7);
+  border-color:#263c4f;
+}
+.results{
+  grid-column:1;
+  grid-row:3;
+  min-height:0;
+  margin-top:0;
+  padding:16px 18px;
+}
+.inventory-panel{
+  grid-column:2;
+  grid-row:1 / span 2;
+  margin:0;
+  position:sticky;
+  top:98px;
+  max-height:calc(100vh - 118px);
+  overflow:auto;
+  padding:18px;
+  background:linear-gradient(145deg,#0d1823f5,#091019f7);
+  border-color:#294052;
+}
+.inventory-panel::-webkit-scrollbar{width:6px}
+.inventory-panel::-webkit-scrollbar-thumb{background:#34495b;border-radius:8px}
+.inventory-grid{grid-template-columns:1fr}
+.inventory-target{background:#09131d;border-color:#294052}
+.inv-item.contextual{background:#0a131c;border-color:#263a4a}
+.inv-range::-webkit-slider-runnable-track{background:#263847}
+.inv-range::-moz-range-track{background:#263847}
+
+/* Give the crafting tree more visual weight like the reference. */
+.tree-panel .plan-head{
+  padding-bottom:12px;
+  border-bottom:1px solid #1e3140;
+}
+.tree-panel .eyebrow{color:#6e91ad}
+.tree-panel h2{font-size:18px}
+.tree-canvas{padding-top:24px}
+.tbox{
+  width:148px;
+  height:62px;
+  background:linear-gradient(145deg,#132231,#0b131c);
+  border-color:#3b5265;
+  box-shadow:0 8px 20px #0005;
+}
+.tbox.root{
+  border-color:#c52b49;
+  background:linear-gradient(145deg,#27111b,#101821);
+  box-shadow:0 0 0 2px #b51f3c30,0 12px 30px #0007;
+}
+.tbox.craft{border-color:#7e2940}
+.tbox.raw{border-color:#68532f}
+
+/* Farm becomes a wide visual section under the main workspace. */
+.farm-panel{
+  margin-top:14px;
+  background:
+    linear-gradient(90deg,rgba(7,13,19,.97),rgba(7,13,19,.84)),
+    url("https://a.storyblok.com/f/204235/3840x2160/ee510e6305/updated-hero-background.jpg/m/fit-in/2560x1440") center 58% / cover;
+  border-color:#3a2630;
+}
+.farm-panel .eyebrow{color:#a74c60}
+
+/* Keep secondary sections visually consistent with the new dashboard. */
+.map-panel,.plan{
+  background:linear-gradient(145deg,#0d1823f2,#091019f5);
+  border-color:#263b4c;
+}
+.project-bar{margin-top:14px}
+
+@media(max-width:1100px) and (min-width:801px){
+  :root{--sidebar-w:190px}
+  .shell{margin-left:calc(var(--sidebar-w) + 16px);padding-inline:20px}
+  .calculator{grid-template-columns:minmax(0,1fr) 290px}
+  .brand-logo{width:100px}
+  .view-btn{font-size:10px}
+}
+
+@media(max-width:800px){
+  .topbar{
+    height:68px;
+    padding:0 14px;
+    background-position:center;
+  }
+  .brand-logo{width:96px;height:34px}
+  .brand strong{font-size:10px}
+  .brand small{font-size:7px}
+  .shell{
+    width:min(100% - 20px,1180px);
+    margin:0 auto;
+    padding:18px 0 30px;
+  }
+  .hero{margin-bottom:14px}
+  .view-nav{
+    position:sticky;
+    left:auto;
+    top:68px;
+    bottom:auto;
+    width:100%;
+    height:auto;
+    margin:0 0 12px;
+    padding:5px;
+    border:1px solid #29303d;
+    border-radius:12px;
+    flex-direction:row;
+    gap:5px;
+    overflow-x:auto;
+    background:#0d1119ee;
+    box-shadow:0 10px 30px #0005;
+  }
+  .view-nav::after{display:none}
+  .view-btn{width:auto;min-width:112px;text-align:center}
+  .utility-btn{margin:0!important;border-top:0;padding-top:10px}
+  .calculator{
+    grid-template-columns:1fr;
+    grid-template-rows:auto;
+  }
+  .controls,.tree-panel,.results,.inventory-panel{
+    grid-column:1;
+    grid-row:auto;
+  }
+  .inventory-panel{
+    position:static;
+    max-height:none;
+    overflow:visible;
+  }
+  .inventory-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr))}
+}
+
+@media(max-width:560px){
+  .topbar{height:62px}
+  .brand-logo{width:82px}
+  .brand div{display:none}
+  .top-actions .language{display:none}
+  .view-nav{top:62px}
+  .shell{width:calc(100% - 20px)}
+  .calculator{gap:10px}
+  .tree-panel{min-height:390px}
+  .inventory-grid{grid-template-columns:1fr}
+}
