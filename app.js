@@ -1,3 +1,47 @@
+function renderInventory(){
+  var qty=Math.max(1,+el("quantity").value||1),totals=requiredTotals(),entries=Array.from(totals.entries()).filter(function(p){return p[1]>0});
+  var context=el("inventoryContext");
+  if(!entries.length){
+    context.innerHTML='<div class="inventory-empty-note">'+(recipeFor(selected).length?t("inventoryNone"):t("inventoryRaw"))+'</div>';
+    el("inventoryGrid").innerHTML="";
+    return;
+  }
+  context.innerHTML='<div class="inventory-target"><div><span class="inventory-target-label">'+t("inventoryNeed")+'</span><strong>'+itemName(selected)+' × '+fmt(qty)+'</strong></div><span class="inventory-target-badge">'+entries.length+' '+t("materials")+'</span></div>';
+  el("inventoryGrid").innerHTML=entries.sort(function(a,b){return b[1]-a[1]}).map(function(pair){
+    var id=pair[0],need=pair[1],have=inventory[id]||0,missing=Math.max(0,need-have),complete=missing===0,pct=Math.min(100,need?have/need*100:100),max=Math.max(need*2,have,100);
+    return '<div class="inv-item contextual '+(complete?"complete":"")+'" data-id="'+id+'"><div class="inv-top"><div class="item-icon">'+iconHTML(id)+'</div><div class="inv-main"><div class="inv-name">'+itemName(id)+'</div><div class="inv-meta">'+t("inventoryNeedTotal")+' <b class="inv-need">'+fmt(need)+'</b> · '+t("inventoryHave")+' <b class="inv-have">'+fmt(have)+'</b></div></div><div class="inv-status">'+(complete?"✓ "+t("inventoryComplete"):"-"+fmt(missing))+'</div></div><div class="inv-slider-row"><input class="inv-range" aria-label="'+itemName(id)+' '+t("inventoryHave")+'" type="range" min="0" max="'+max+'" value="'+Math.min(have,max)+'" data-id="'+id+'"><input class="inv-input" aria-label="'+itemName(id)+' '+t("inventoryHave")+'" type="number" min="0" value="'+have+'" data-id="'+id+'"></div><div class="inv-progress"><span style="width:'+pct+'%"></span></div><div class="inv-bottom"><span>'+t("inventoryMissing")+': <b class="inv-missing">'+fmt(missing)+'</b></span><span class="inv-slider-max">0–'+fmt(max)+'</span></div></div>';
+  }).join("");
+  function syncCard(id,value,range){
+    var card=el("inventoryGrid").querySelector('.inv-item[data-id="'+id+'"]');
+    if(!card)return;
+    var need=Math.max(0,+(card.querySelector(".inv-need")?.textContent||0)),have=Math.max(0,value||0),missing=Math.max(0,need-have),complete=missing===0,pct=Math.min(100,need?have/need*100:100);
+    card.classList.toggle("complete",complete);
+    card.querySelector(".inv-have").textContent=fmt(have);
+    card.querySelector(".inv-status").textContent=complete?"✓ "+t("inventoryComplete"):"-"+fmt(missing);
+    card.querySelector(".inv-missing").textContent=fmt(missing);
+    card.querySelector(".inv-progress span").style.width=pct+"%";
+    if(range)card.querySelector(".inv-input").value=have;
+    else card.querySelector(".inv-range").value=Math.min(have,+card.querySelector(".inv-range").max);
+  }
+  el("inventoryGrid").querySelectorAll(".inv-range").forEach(function(range){
+    range.oninput=function(){
+      var value=Math.max(0,+range.value||0);
+      inventory[range.dataset.id]=value;
+      syncCard(range.dataset.id,value,true);
+      saveState();
+      renderFarm();
+    };
+  });
+  el("inventoryGrid").querySelectorAll(".inv-input").forEach(function(inp){
+    inp.oninput=function(){
+      var value=Math.max(0,+inp.value||0);
+      inventory[inp.dataset.id]=value;
+      syncCard(inp.dataset.id,value,false);
+      saveState();
+      renderFarm();
+    };
+  });
+}
 const D=window.VRISING_DATA;
 const items=new Map(D.items.map(function(x){return [x[0],{id:x[0],name:x[1],icon:x[2]}]}));
 const recipes=D.recipes.map(function(x){return {from:x[0],to:x[1],qty:x[2],produces:x[3],altQty:x[4]||-1}});
