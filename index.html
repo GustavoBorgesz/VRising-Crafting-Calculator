@@ -15,7 +15,7 @@
 <button type="button" class="view-btn" data-view="tree" data-i18n="viewTree">⌘ Árvore</button>
 <button type="button" class="view-btn" data-view="map" data-i18n="viewMap">⌖ Mapa</button>
 <button type="button" class="view-btn" data-view="farm" data-i18n="viewFarm">⛏ Farm</button>
-<button type="button" class="view-btn" data-view="inventory" data-i18n="viewInventory">▣ Inventário</button>
+<button type="button" class="view-btn" data-view="inventory" data-i18n="viewInventory">▣ Meu estoque</button>
 <button type="button" class="view-btn" data-view="plan" data-i18n="viewPlan">☷ Minha lista</button>
 <button type="button" id="compactToggle" class="view-btn utility-btn">◐ Compacto</button>
 </nav>
@@ -41,8 +41,8 @@
 <div class="farm-actions"><button id="copyFarm" class="secondary" type="button">📋 Copiar lista de farm</button><button id="markFarmed" class="secondary" type="button">✓ Marcar tudo como farmado</button></div>
 </section>
 <section id="inventoryPanel" class="panel inventory-panel">
-<div class="plan-head"><div><p class="eyebrow" data-i18n="inventoryEyebrow">INVENTÁRIO</p><h2 data-i18n="inventoryTitle">O que eu já tenho?</h2><p class="tree-hint" data-i18n="inventoryHint">Informe quanto você possui de cada material.</p></div><button id="clearInventory" class="ghost" type="button" data-i18n="clear">Limpar</button></div>
-<div id="inventoryGrid" class="inventory-grid"></div>
+<div class="plan-head"><div><p class="eyebrow" data-i18n="inventoryEyebrow">MEU ESTOQUE</p><h2 data-i18n="inventoryTitle">O que eu já tenho para fabricar?</h2><p class="tree-hint" data-i18n="inventoryHint">Mostra somente os materiais necessários para o item selecionado. Informe quanto você já possui.</p></div><button id="clearInventory" class="ghost" type="button" data-i18n="clear">Limpar estoque</button></div>
+<div id="inventoryContext" class="inventory-context"></div><div id="inventoryGrid" class="inventory-grid"></div>
 </section>
 <section id="planPanel" class="panel plan"><div class="plan-head"><div><p class="eyebrow" data-i18n="productionList">LISTA DE PRODUÇÃO</p><h2 data-i18n="myList">Minha lista de fabricação</h2></div><div class="plan-actions"><button id="farmPlan" class="secondary" type="button">⛏ Farmar minha lista</button><button id="clearPlan" class="ghost" type="button" data-i18n="clear">Limpar</button></div></div><div id="planItems" class="plan-items"><div class="empty" data-i18n="emptyPlan">Adicione itens à lista para somar tudo em uma única lista de farm.</div></div><div id="planTotals" class="plan-totals"></div></section>
 <div class="project-bar"><button id="saveProject" class="secondary" type="button" data-i18n="saveProject">💾 Salvar projeto</button><button id="exportData" class="secondary" type="button" data-i18n="exportData">⬇ Exportar</button><button id="importData" class="secondary" type="button" data-i18n="importData">⬆ Importar</button><input id="importFile" type="file" accept=".json" hidden></div>
