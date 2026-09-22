@@ -1,43 +1,217 @@
 # V Rising Crafting Calculator
 
-Calculadora web para somar materiais de crafting do V Rising.
+Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia completa de fabricação e organizar os materiais necessários para farm.
 
-## Recursos
+> Projeto de fã, sem afiliação com a Stunlock Studios.
+
+## ✦ Recursos
+
+### Calculadora
 - Busca de itens
-- Quantidade desejada
-- Ingredientes diretos
-- Cadeia recursiva até matérias-primas
+- Filtros por categoria
+- Seleção de quantidade
+- Ingredientes diretos e cadeia recursiva até matérias-primas
 - Arredondamento por lotes
 - Receita econômica opcional
 - Lista de fabricação com soma consolidada
-- Ícones dos materiais (V Rising Wiki), com emoji como reserva quando o ícone não existe ou não carrega
-- Mapa de recursos: esquema aproximado de Vardoran mostrando as regiões onde farmar os materiais do item escolhido
-- Árvore visual de fabricação (linhas ligando cada item aos ingredientes)
-- Interface responsiva
-- Site estático, pronto para GitHub Pages
+- Copiar plano de produção
+
+### Árvore de fabricação
+- Árvore visual do item final até os materiais
+- Conexões entre itens e ingredientes
+- Quantidades exibidas nos nós
+- Zoom da árvore
+- Rolagem horizontal para árvores grandes
+- Layout pensado para desktop e mobile
+- A árvore é a visualização principal da calculadora
+
+### Meu estoque
+- Mostra somente os materiais necessários para o item selecionado
+- Controle de quantidade com **slider horizontal**
+- Campo numérico para valores exatos
+- Slider e campo numérico sincronizados
+- Indicador **Preciso → Tenho → Falta**
+- Barra de progresso por material
+- Atualização imediata do Modo Farm
+- Estoque salvo localmente no navegador
+
+### Modo Farm
+- Materiais consolidados necessários para o item
+- Quantidades restantes após considerar o estoque
+- Organização visual para facilitar a coleta
+- Integração com Meu estoque
+
+### Mapa de recursos
+- Esquema aproximado de Vardoran
+- Regiões relacionadas aos materiais necessários
+- Link para mapa interativo externo
+
+### Interface
+- Interface inspirada na atmosfera visual de **V Rising**
+- Dashboard responsivo
+- Sidebar vertical no desktop
+- Navegação horizontal no mobile
+- Arte atmosférica de V Rising no layout
+- Tema escuro
+- Design adaptável para desktop, tablet e celular
+- Controles com áreas de toque maiores
+- Suporte a teclado e foco acessível
+- Respeita `prefers-reduced-motion`
+
+### Idiomas
+- Português (PT-BR)
+- Inglês (EN)
+- Troca de idioma sem perder o estado principal da aplicação
+
+### Dados e persistência
+- Itens e receitas armazenados localmente no projeto
+- Favoritos
+- Itens recentes
+- Plano de fabricação
+- Inventário/estoque local
+- Importação e exportação do estado
+- Persistência usando `localStorage`
+
+### PWA / Offline
+- Aplicação instalável como PWA
+- Service Worker
+- Cache dos arquivos principais
+- Funcionamento offline após o carregamento inicial
+
+### Visual
+- Ícones de materiais baseados em fontes públicas da comunidade
+- Emoji como fallback quando um ícone não está disponível
+- Arte oficial de V Rising utilizada como ambientação visual do projeto
 
 ## Dados
-O projeto começa com um grafo comunitário de materiais de V Rising 1.1. Ele é um ponto de partida e deve ser revisado/atualizado antes de ser tratado como referência completa de uma versão específica.
 
-A referência pública atual do V Rising Database informa a versão v1.1.13.0-r99712-b17, atualizada em 5 de setembro de 2026:
+O projeto utiliza como ponto de partida um grafo comunitário de materiais e receitas de V Rising 1.1. A base ainda deve ser revisada antes de ser considerada uma referência completa e definitiva para uma versão específica do jogo.
+
+Fonte de referência pública:
+
 https://vrising.gaming.tools/
 
-Os ícones são carregados da V Rising Wiki (vrising.wiki.spellsandguns.com, texto sob CC BY-SA 4.0). V Rising e seus assets, incluindo os ícones, pertencem à Stunlock Studios. Este é um projeto de fã e não é afiliado à Stunlock Studios.
+Os dados e receitas podem mudar conforme atualizações do jogo. Por isso, a versão dos dados deve ser considerada separadamente da versão da interface.
+
+Os ícones são carregados de fontes públicas da comunidade. V Rising, sua identidade visual e seus assets pertencem aos respectivos detentores de direitos. Este é um projeto de fã e não é afiliado à Stunlock Studios.
+
+## Estrutura do projeto
+
+```text
+VRising-Crafting-Calculator/
+├── index.html            # Estrutura da aplicação
+├── styles.css            # Interface, layout e responsividade
+├── app.js                # Motor de cálculo, estado e interações
+├── data.js               # Itens e receitas
+├── icons.js              # Mapa de ícones dos itens
+├── locations.js          # Regiões e locais de recursos
+├── manifest.webmanifest  # Configuração PWA
+├── sw.js                 # Service Worker e cache offline
+└── README.md             # Documentação
+```
+
+## Interface
+
+A estrutura atual segue o fluxo:
+
+```text
+Navegação
+    ↓
+Calculadora
+    ↓
+Árvore de fabricação
+    ↓
+Resultado resumido
+
+Meu estoque → materiais necessários → quanto tenho → quanto falta
+    ↓
+Modo Farm → plano de coleta
+```
+
+No desktop, o **Meu estoque** permanece próximo da área de crafting para permitir ajustes enquanto a árvore é analisada. No mobile, os blocos passam para uma única coluna.
 
 ## GitHub Pages
-Em Settings → Pages, selecione Deploy from a branch, branch main e pasta /(root).
 
-## Arquivos
-index.html — interface
-styles.css — tema
-data.js — itens e receitas
-icons.js — mapa de ícones dos materiais
-locations.js — regiões do mapa e onde cada material bruto é encontrado
-app.js — motor de cálculo
+Para publicar pelo GitHub Pages:
+
+1. Abra **Settings → Pages**.
+2. Em **Build and deployment**, selecione **Deploy from a branch**.
+3. Escolha a branch `main`.
+4. Escolha a pasta `/(root)`.
+5. Salve e aguarde o deploy.
+
+Como o projeto é composto por HTML, CSS e JavaScript estáticos, não é necessário um backend para executar a interface.
+
+## Desenvolvimento local
+
+Você pode abrir o `index.html` diretamente em um navegador para testar a interface básica.
+
+Para testar corretamente recursos como **Service Worker/PWA**, é recomendado utilizar um servidor HTTP local.
+
+Exemplo com Python:
+
+```bash
+python -m http.server 8000
+```
+
+Depois acesse:
+
+```text
+http://localhost:8000
+```
 
 ## Próximas etapas
-1. Completar a base com todas as receitas da versão atual.
-2. Adicionar ícones dos itens.
-3. Adicionar estações e desbloqueios.
-4. Suportar múltiplas variantes de receita.
-5. Adicionar importação/exportação da lista de farm.
+
+### Dados
+- [ ] Completar e validar a base de receitas da versão atual
+- [ ] Separar itens, receitas, estações e desbloqueios em estruturas independentes
+- [ ] Suportar múltiplas variantes de receita
+- [ ] Validar receitas, ingredientes ausentes e dependências circulares
+- [ ] Registrar versão/data da base de dados
+
+### Calculadora
+- [ ] Comparar receitas alternativas
+- [ ] Mostrar rendimento e ciclos necessários
+- [ ] Permitir escolha manual da receita
+- [ ] Calcular quanto é possível fabricar com o estoque atual
+- [ ] Suportar múltiplos itens na mesma calculadora
+- [ ] Compartilhar uma configuração via URL
+
+### Árvore
+- [ ] Expandir/recolher ramificações
+- [ ] Destacar o caminho do material selecionado
+- [ ] Mostrar estação de crafting nos nós
+- [ ] Permitir clicar em um material para transformá-lo no item principal
+- [ ] Exportar árvore como imagem/SVG
+- [ ] Melhorar conectores em árvores muito grandes
+
+### Farm
+- [ ] Agrupar materiais por região
+- [ ] Checklist de coleta
+- [ ] Marcar coleta parcial/completa
+- [ ] Mostrar progresso da coleta
+- [ ] Salvar projetos de farm
+- [ ] Criar presets de coleta
+
+### UX / UI
+- [ ] Onboarding inicial
+- [ ] Tooltips
+- [ ] Animações sutis na árvore
+- [ ] Melhor feedback para receitas inexistentes
+- [ ] Confirmação antes de ações destrutivas
+- [ ] Indicador de atualização do aplicativo/PWA
+- [ ] Seção "Sobre os dados"
+
+## Status
+
+**Em desenvolvimento.**
+
+A interface, cálculo recursivo, árvore de fabricação, Meu estoque, Modo Farm, mapa de recursos, persistência local, responsividade e PWA já estão implementados. A principal etapa pendente é ampliar e validar a base de dados de receitas e suportar casos mais complexos de crafting.
+
+## Licença e créditos
+
+Este projeto é desenvolvido para fins de estudo e uso da comunidade.
+
+- **V Rising** é propriedade da **Stunlock Studios**.
+- O projeto não é oficial e não possui afiliação com a Stunlock Studios.
+- Consulte as fontes originais dos dados e ícones para suas respectivas licenças e atribuições.
