@@ -39,10 +39,10 @@ produces:"Produz",perRecipe:"por receita",noRecipe:"Matéria-prima / sem receita
 noIngredients:"Este item não possui ingredientes cadastrados.",remove:"remover",copied:"✓ Copiado",
 copyMaterialsDefault:"Copiar materiais",count:"itens",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Escolha um item na lista ou pela busca.",
-farmEyebrow:"MODO FARM",farmTitle:"O que preciso farmar?",farmHint:"Mostra somente o que falta depois de descontar seu inventário.",inventoryEyebrow:"INVENTÁRIO",inventoryTitle:"O que eu já tenho?",inventoryHint:"Informe quanto você possui de cada material.",zero:"Zerar",saveProject:"💾 Salvar projeto",exportData:"⬇ Exportar",importData:"⬆ Importar",
+farmEyebrow:"MODO FARM",farmTitle:"O que preciso farmar?",farmHint:"Mostra somente o que falta depois de descontar seu inventário.",inventoryEyebrow:"MEU ESTOQUE",inventoryTitle:"O que eu já tenho para fabricar?",inventoryHint:"Mostra somente os materiais necessários para o item selecionado. Informe quanto você já possui.",inventoryNeed:"Para fabricar",inventoryHave:"Tenho",inventoryNeedTotal:"Preciso",inventoryMissing:"Falta",inventoryComplete:"Completo",inventoryNone:"Nenhum material necessário para este item.",inventoryRaw:"Selecione um item fabricável para controlar os materiais.",zero:"Zerar",saveProject:"💾 Salvar projeto",exportData:"⬇ Exportar",importData:"⬆ Importar",
 mapEyebrow:"MAPA DE RECURSOS",mapTitle:"Onde farmar os materiais",mapHint:"Regiões onde ficam os materiais do item escolhido. Esquema aproximado, não é o mapa oficial.",mapLink:"Mapa interativo ↗",mapNoLoc:"Local ainda não mapeado",mapEmpty:"Nenhum material deste item tem local mapeado ainda.",mapAria:"Esquema aproximado do mapa de Vardoran",
 treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo.",
-viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewFarm:"⛏ Farm",viewInventory:"▣ Inventário",viewPlan:"☷ Minha lista",filterAll:"Todos",filterCraftable:"Fabricáveis",filterRaw:"Matérias-primas",filterFavorite:"★ Favoritos",filterMetal:"Metais",filterTextile:"Têxteis",filterAlchemy:"Alquimia",saved:"✓ Projeto salvo",exported:"✓ Dados exportados",imported:"✓ Dados importados"
+viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewFarm:"⛏ Farm",viewInventory:"▣ Meu estoque",viewPlan:"☷ Minha lista",filterAll:"Todos",filterCraftable:"Fabricáveis",filterRaw:"Matérias-primas",filterFavorite:"★ Favoritos",filterMetal:"Metais",filterTextile:"Têxteis",filterAlchemy:"Alquimia",saved:"✓ Projeto salvo",exported:"✓ Dados exportados",imported:"✓ Dados importados"
 },
 "en":{
 eyebrow:"MATERIAL CALCULATOR",heroTitle:"How much do I need to farm?",
@@ -57,10 +57,10 @@ produces:"Produces",perRecipe:"per recipe",noRecipe:"Raw material / no recipe",n
 noIngredients:"This item has no registered ingredients.",remove:"remove",copied:"✓ Copied",
 copyMaterialsDefault:"Copy materials",count:"items",footer:"Fan-made project · V Rising is property of Stunlock Studios · Icons: V Rising Wiki",
 chooseItem:"Choose an item from the list or search.",
-farmEyebrow:"FARM MODE",farmTitle:"What do I need to farm?",farmHint:"Shows only what is missing after subtracting your inventory.",inventoryEyebrow:"INVENTORY",inventoryTitle:"What do I already have?",inventoryHint:"Enter how much of each material you have.",zero:"Reset",saveProject:"💾 Save project",exportData:"⬇ Export",importData:"⬆ Import",
+farmEyebrow:"FARM MODE",farmTitle:"What do I need to farm?",farmHint:"Shows only what is missing after subtracting your inventory.",inventoryEyebrow:"MY STOCK",inventoryTitle:"What do I already have to craft it?",inventoryHint:"Shows only the materials needed for the selected item. Enter how much you already have.",inventoryNeed:"To craft",inventoryHave:"Have",inventoryNeedTotal:"Need",inventoryMissing:"Missing",inventoryComplete:"Complete",inventoryNone:"No materials are required for this item.",inventoryRaw:"Select a craftable item to track its materials.",zero:"Reset",saveProject:"💾 Save project",exportData:"⬇ Export",importData:"⬆ Import",
 mapEyebrow:"RESOURCE MAP",mapTitle:"Where to farm the materials",mapHint:"Regions where the chosen item's materials are found. Approximate schematic, not the official map.",mapLink:"Interactive map ↗",mapNoLoc:"Location not mapped yet",mapEmpty:"None of this item's materials have a mapped location yet.",mapAria:"Approximate schematic of the Vardoran map",
 treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it.",
-viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewFarm:"⛏ Farm",viewInventory:"▣ Inventory",viewPlan:"☷ My list",filterAll:"All",filterCraftable:"Craftable",filterRaw:"Raw materials",filterFavorite:"★ Favorites",filterMetal:"Metals",filterTextile:"Textiles",filterAlchemy:"Alchemy",saved:"✓ Project saved",exported:"✓ Data exported",imported:"✓ Data imported"
+viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewFarm:"⛏ Farm",viewInventory:"▣ My stock",viewPlan:"☷ My list",filterAll:"All",filterCraftable:"Craftable",filterRaw:"Raw materials",filterFavorite:"★ Favorites",filterMetal:"Metals",filterTextile:"Textiles",filterAlchemy:"Alchemy",saved:"✓ Project saved",exported:"✓ Data exported",imported:"✓ Data imported"
 }
 };
 let lang="pt-BR";
@@ -302,9 +302,26 @@ function requiredTotals(){var c=calculate(selected,Math.max(1,+el("quantity").va
 function planTotalsMap(){var totals=new Map();function add(k,n){totals.set(k,(totals.get(k)||0)+n)}plan.forEach(function(p){calculate(p.id,p.qty,true,el("alt").checked).totals.forEach(function(n,id){add(id,n)})});return totals}
 function renderFarmFromPlan(){var totals=planTotalsMap(),missing=Array.from(totals.entries()).map(function(p){return [p[0],Math.max(0,p[1]-(inventory[p[0]]||0)),inventory[p[0]]||0,p[1]]}).filter(function(p){return p[1]>0});el("farmSummary").innerHTML='<div class="stat"><b>'+fmt(plan.length)+'</b> itens na lista</div><div class="stat"><b>'+fmt(missing.length)+'</b> materiais faltando</div><div class="stat"><b>'+fmt(missing.reduce(function(a,p){return a+p[1]},0))+'</b> unidades para farmar</div>';el("farmMaterials").innerHTML=missing.length?missing.sort(function(a,b){return b[1]-a[1]}).map(function(p){return '<div class="material farm-material"><div class="material-left"><div class="item-icon">'+iconHTML(p[0])+'</div><div><div class="material-name">'+itemName(p[0])+'</div><span class="owned">Tenho '+fmt(p[2])+' · Preciso '+fmt(p[3])+'</span></div></div><b class="shortage">+'+fmt(p[1])+'</b></div>'}).join(""):'<div class="empty">🎉 Você já possui tudo para a lista.</div>'}
 function renderInventory(){
-  var raw=Array.from(items.values()).filter(function(x){return !recipeFor(x.id).length}).sort(function(a,b){return itemName(a.id).localeCompare(itemName(b.id),lang)});
-  el("inventoryGrid").innerHTML=raw.map(function(x){return '<div class="inv-item"><div class="item-icon">'+iconHTML(x.id)+'</div><div class="inv-main"><div class="inv-name">'+itemName(x.id)+'</div></div><input class="inv-input" type="number" min="0" value="'+(inventory[x.id]||0)+'" data-id="'+x.id+'"></div>'}).join("");
-  el("inventoryGrid").querySelectorAll(".inv-input").forEach(function(inp){inp.oninput=function(){inventory[inp.dataset.id]=Math.max(0,+inp.value||0);saveState();renderFarm()}});
+  var qty=Math.max(1,+el("quantity").value||1),totals=requiredTotals(),entries=Array.from(totals.entries()).filter(function(p){return p[1]>0});
+  var context=el("inventoryContext");
+  if(!entries.length){
+    context.innerHTML='<div class="inventory-empty-note">'+(recipeFor(selected).length?t("inventoryNone"):t("inventoryRaw"))+'</div>';
+    el("inventoryGrid").innerHTML="";
+    return;
+  }
+  context.innerHTML='<div class="inventory-target"><div><span class="inventory-target-label">'+t("inventoryNeed")+'</span><strong>'+itemName(selected)+' × '+fmt(qty)+'</strong></div><span class="inventory-target-badge">'+entries.length+' '+t("materials")+'</span></div>';
+  el("inventoryGrid").innerHTML=entries.sort(function(a,b){return b[1]-a[1]}).map(function(pair){
+    var id=pair[0],need=pair[1],have=inventory[id]||0,missing=Math.max(0,need-have),complete=missing===0,pct=Math.min(100,need?have/need*100:100);
+    return '<div class="inv-item contextual '+(complete?"complete":"")+'"><div class="inv-top"><div class="item-icon">'+iconHTML(id)+'</div><div class="inv-main"><div class="inv-name">'+itemName(id)+'</div><div class="inv-meta">'+t("inventoryNeedTotal")+' <b>'+fmt(need)+'</b> · '+t("inventoryHave")+' <b>'+fmt(have)+'</b></div></div><div class="inv-status">'+(complete?"✓ "+t("inventoryComplete"):"-"+fmt(missing))+'</div></div><div class="inv-progress"><span style="width:'+pct+'%"></span></div><div class="inv-bottom"><span>'+t("inventoryMissing")+': <b>'+fmt(missing)+'</b></span><input class="inv-input" aria-label="'+itemName(id)+'" type="number" min="0" value="'+have+'" data-id="'+id+'"></div></div>';
+  }).join("");
+  el("inventoryGrid").querySelectorAll(".inv-input").forEach(function(inp){
+    inp.oninput=function(){
+      inventory[inp.dataset.id]=Math.max(0,+inp.value||0);
+      saveState();
+      renderInventory();
+      renderFarm();
+    };
+  });
 }
 function renderFarm(){
   var totals=requiredTotals(),entries=Array.from(totals.entries()).filter(function(p){return p[1]>0});
