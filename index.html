@@ -7,18 +7,34 @@
 <link rel="stylesheet" href="styles.css"><link rel="manifest" href="manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes">
 </head>
 <body><div class="bg"></div>
-<header class="topbar"><div class="brand"><img class="brand-logo" src="https://a.storyblok.com/f/204235/2250x812/48ab2861ed/web_logo2.png/m/fit-in/800x500" alt="V Rising"><div><strong>CRAFTING CALCULATOR</strong><small>FAN-MADE CRAFTING PLANNER</small></div></div><div class="top-actions"><div class="language" role="group" aria-label="Language"><button id="langPT" class="lang active" type="button">PT-BR</button><button id="langEN" class="lang" type="button">EN</button></div><a href="https://github.com/GustavoBorgesz/VRising-Crafting-Calculator" target="_blank" rel="noreferrer">GitHub ↗</a></div></header>
-<main class="shell">
-<section class="hero"><p class="eyebrow" data-i18n="eyebrow">CALCULADORA DE MATERIAIS</p><h1 data-i18n="heroTitle">Quanto eu preciso farmar?</h1><p data-i18n="heroText">Escolha um item pela lista ou use a busca, defina a quantidade e veja os materiais diretos ou toda a cadeia até as matérias-primas.</p></section>
-<nav class="view-nav" aria-label="Ferramentas">
-<button type="button" class="view-btn active" data-view="calculator" data-i18n="viewCalculator">⚙ Calculadora</button>
-<button type="button" class="view-btn" data-view="tree" data-i18n="viewTree">⌘ Árvore</button>
-<button type="button" class="view-btn" data-view="map" data-i18n="viewMap">⌖ Mapa</button>
-<button type="button" class="view-btn" data-view="farm" data-i18n="viewFarm">⛏ Farm</button>
-<button type="button" class="view-btn" data-view="inventory" data-i18n="viewInventory">▣ Meu estoque</button>
-<button type="button" class="view-btn" data-view="plan" data-i18n="viewPlan">☷ Minha lista</button>
-<button type="button" id="compactToggle" class="view-btn utility-btn">◐ Compacto</button>
+<header class="hero-banner">
+<div class="hb-fog"></div><div class="hb-moon"></div><div class="hb-castle"></div>
+<div class="hb-row">
+<div class="brand"><span class="brand-glyph">✦</span><div><strong>V RISING</strong><small data-i18n="brandSub">CRAFTING CALCULATOR</small></div></div>
+<p class="hb-tagline" data-i18n-html="heroTagline">PLANEJE SEU CRAFT.<br>OTIMIZE SEU FARM.<br>DOMINE V RISING.</p>
+</div>
+</header>
+<div class="app-shell">
+<aside class="sidebar">
+<nav class="side-nav" aria-label="Ferramentas">
+<button type="button" class="view-btn active" data-view="calculator" ><span class="vb-ico">⌂</span><span class="vb-label" data-i18n="navCalculator">Calculadora</span></button>
+<button type="button" class="view-btn" data-view="tree" ><span class="vb-ico">⌘</span><span class="vb-label" data-i18n="navTree">Árvore de Fabricação</span></button>
+<button type="button" class="view-btn" data-view="inventory" ><span class="vb-ico">▣</span><span class="vb-label" data-i18n="navInventory">Meu Estoque</span></button>
+<button type="button" class="view-btn" data-view="map" ><span class="vb-ico">⌖</span><span class="vb-label" data-i18n="navMap">Mapa / Locais</span></button>
+<button type="button" class="view-btn" data-view="farm" ><span class="vb-ico">⛏</span><span class="vb-label" data-i18n="navFarm">Modo Farm</span></button>
+<button type="button" class="view-btn" data-view="plan" ><span class="vb-ico">☷</span><span class="vb-label" data-i18n="navPlan">Minha Lista</span></button>
+<button type="button" class="view-btn" data-view="recipes" ><span class="vb-ico">📖</span><span class="vb-label" data-i18n="navRecipes">Receitas</span></button>
+<button type="button" class="view-btn" data-view="about" ><span class="vb-ico">ⓘ</span><span class="vb-label" data-i18n="navAbout">Sobre o Projeto</span></button>
 </nav>
+<blockquote class="side-quote" data-i18n-html="sideQuote">“O poder não é dado.<br>Ele é construído.”<cite>— V Rising</cite></blockquote>
+</aside>
+<main class="shell">
+<div class="top-utility">
+<div class="language" role="group" aria-label="Language"><button id="langPT" class="lang active" type="button">PT-BR</button><button id="langEN" class="lang" type="button">EN</button></div>
+<button type="button" id="compactToggle" class="ghost small">◐ Compacto</button>
+<a href="https://github.com/GustavoBorgesz/VRising-Crafting-Calculator" target="_blank" rel="noreferrer">GitHub ↗</a>
+</div>
+<section class="hero"><p class="eyebrow" data-i18n="eyebrow">CALCULADORA DE MATERIAIS</p><h1 data-i18n="heroTitle">Quanto eu preciso farmar?</h1><p data-i18n="heroText">Escolha um item pela lista ou use a busca, defina a quantidade e veja os materiais diretos ou toda a cadeia até as matérias-primas.</p></section>
 <section class="calculator">
 <aside class="panel controls">
 <label for="search" data-i18n="itemToCraft">Item para fabricar</label><div class="searchbox"><span>⌕</span><input id="search" autocomplete="off" data-i18n-placeholder="searchPlaceholder" placeholder="Buscar item..."></div><div id="suggestions" class="suggestions"></div>
@@ -46,6 +62,9 @@
 </section>
 
 <section id="planPanel" class="panel plan"><div class="plan-head"><div><p class="eyebrow" data-i18n="productionList">LISTA DE PRODUÇÃO</p><h2 data-i18n="myList">Minha lista de fabricação</h2></div><div class="plan-actions"><button id="farmPlan" class="secondary" type="button">⛏ Farmar minha lista</button><button id="clearPlan" class="ghost" type="button" data-i18n="clear">Limpar</button></div></div><div id="planItems" class="plan-items"><div class="empty" data-i18n="emptyPlan">Adicione itens à lista para somar tudo em uma única lista de farm.</div></div><div id="planTotals" class="plan-totals"></div></section>
+<section id="recipesPanel" class="panel recipes-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="recipesEyebrow">BASE DE RECEITAS</p><h2 data-i18n="recipesTitle">Todas as receitas de fabricação</h2><p class="tree-hint" data-i18n="recipesHint">Navegue por todos os itens fabricáveis do jogo e veja o que cada um pede.</p></div><div class="searchbox recipes-search"><span>⌕</span><input id="recipeSearch" autocomplete="off" data-i18n-placeholder="searchPlaceholder" placeholder="Buscar item..."></div></div><div id="recipesGrid" class="recipes-grid"></div></section>
+<section id="aboutPanel" class="panel about-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="aboutEyebrow">SOBRE</p><h2 data-i18n="aboutTitle">Sobre o projeto</h2></div></div><div class="about-body"><p data-i18n="aboutP1">Ferramenta feita por fãs para planejar o crafting de V Rising: veja quanto farmar, monte a árvore de fabricação, controle seu estoque e descubra onde encontrar cada material.</p><p data-i18n="aboutP2">Projeto de página única, sem servidor nem coleta de dados — tudo roda no seu navegador e o inventário fica salvo só no seu aparelho.</p><h3 data-i18n="aboutCreditsTitle">Créditos</h3><ul class="about-credits"><li data-i18n="aboutCredit1">V Rising e todos os seus materiais, nomes e assets pertencem à Stunlock Studios.</li><li data-i18n="aboutCredit2">Ícones dos materiais: V Rising Wiki (vrising.wiki.spellsandguns.com).</li><li data-i18n="aboutCredit3">Este é um projeto de fã, sem qualquer vínculo oficial com a Stunlock Studios.</li></ul></div></section>
 <div class="project-bar"><button id="saveProject" class="secondary" type="button" data-i18n="saveProject">💾 Salvar projeto</button><button id="exportData" class="secondary" type="button" data-i18n="exportData">⬇ Exportar</button><button id="importData" class="secondary" type="button" data-i18n="importData">⬆ Importar</button><input id="importFile" type="file" accept=".json" hidden></div>
 <footer><span data-i18n="footer">Fan-made project · V Rising is property of Stunlock Studios.</span><span id="dataVersion">Recipe graph</span></footer>
-</main><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(function(){})}</script></body></html>
+</main>
+</div><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(function(){})}</script></body></html>

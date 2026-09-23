@@ -270,381 +270,72 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   .inv-range{height:24px}
 }
 
+/* ===== Sidebar layout + CSS-drawn hero banner (no official artwork) ===== */
+.hero-banner{position:relative;overflow:hidden;height:172px;background:linear-gradient(180deg,#0c1019 0%,#070a10 70%,#05070a 100%);border-bottom:2px solid #5a1524;box-shadow:0 10px 30px #0007}
+.hb-moon{position:absolute;top:-46px;right:9%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 42% 38%,#fdf3e8 0%,#f3d8c6 28%,#d98a6e 52%,#8a2a3a 74%,transparent 78%);box-shadow:0 0 60px 22px #7e1d3455,0 0 140px 60px #4a0f1e33;opacity:.9}
+.hb-fog{position:absolute;inset:auto 0 0 0;height:65%;background:radial-gradient(ellipse 60% 100% at 50% 100%,#8a1d3555 0%,transparent 70%),linear-gradient(180deg,transparent,#05070aee 92%);pointer-events:none}
+.hb-castle{position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,#12070c,#050304);opacity:.92;clip-path:polygon(0 100%,0 55%,4% 55%,4% 38%,7% 38%,7% 52%,12% 52%,12% 22%,15% 22%,15% 42%,21% 42%,21% 60%,26% 60%,26% 14%,29% 14%,29% 46%,36% 46%,36% 28%,39% 28%,39% 8%,43% 8%,43% 32%,50% 32%,50% 50%,56% 50%,56% 18%,60% 18%,60% 40%,67% 40%,67% 56%,72% 56%,72% 32%,76% 32%,76% 54%,83% 54%,83% 24%,86% 24%,86% 46%,92% 46%,92% 38%,96% 38%,96% 58%,100% 58%,100% 100%)}
+.hb-castle::before,.hb-castle::after{content:"";position:absolute;bottom:100%;width:3px;height:14px;background:#12070c}
+.hb-castle::before{left:14.7%;margin-bottom:-1px}
+.hb-castle::after{left:59.7%;margin-bottom:-1px}
+.hb-row{position:relative;z-index:2;height:100%;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:0 clamp(18px,3vw,34px) 18px}
+.brand-glyph{font-size:22px;color:var(--accent2);text-shadow:0 0 14px #e33a5877;flex:none}
+.hb-tagline{margin:0;text-align:right;color:#c9cfda;font-size:11px;font-weight:700;letter-spacing:1.6px;line-height:1.85}
 
-/* V Rising inspired dashboard layout */
-:root{
-  --vr-blue:#0a1521;
-  --vr-blue-2:#0d1d2b;
-  --vr-red:#a91f3b;
-  --vr-red-bright:#e33a58;
-  --sidebar-w:226px;
-}
+.app-shell{display:flex;align-items:stretch}
+.sidebar{flex:none;width:236px;padding:20px 14px;background:#0a0d13;border-right:1px solid #212a35;display:flex;flex-direction:column;position:sticky;top:0;align-self:flex-start;max-height:100vh;overflow:auto}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+.side-nav .view-btn{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:9px;padding:11px 12px;color:#8b93a3;font-size:12px;font-weight:700;cursor:pointer}
+.side-nav .view-btn:hover{background:#141a24;color:#fff}
+.side-nav .view-btn.active{background:linear-gradient(90deg,#7e1d34,#4c1220);color:#fff;box-shadow:inset 3px 0 0 #e33a58,0 6px 16px #0004}
+.vb-ico{width:19px;text-align:center;font-size:15px;flex:none}
+.vb-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side-quote{margin:22px 4px 4px;padding-top:16px;border-top:1px solid #1c242e;font-size:11px;font-style:italic;color:#606a7c;line-height:1.65}
+.side-quote cite{display:block;margin-top:7px;font-style:normal;font-size:9px;letter-spacing:1.5px;color:#414a5a}
 
-/* Official V Rising artwork is used as atmospheric UI decoration. */
-.topbar{
-  height:82px;
-  padding:0 28px;
-  background:
-    linear-gradient(90deg,rgba(4,8,13,.96) 0%,rgba(4,8,13,.72) 45%,rgba(4,8,13,.82) 100%),
-    url("https://a.storyblok.com/f/204235/3840x2160/ee510e6305/updated-hero-background.jpg/m/fit-in/2560x1440") center 42% / cover no-repeat;
-  border-bottom:1px solid #27384a;
-}
-.brand{gap:14px}
-.brand-logo{width:118px;height:42px;object-fit:contain;object-position:left center;filter:drop-shadow(0 3px 10px #000)}
-.brand strong{font-size:12px;letter-spacing:2.4px;color:#dce7f2}
-.brand small{color:#70859a;letter-spacing:1.5px}
-.bat{display:none}
-.top-actions{background:#08111b99;border:1px solid #263746;border-radius:10px;padding:4px 6px;backdrop-filter:blur(8px)}
+.shell{flex:1;min-width:0;max-width:none;margin:0;padding:26px clamp(18px,3vw,36px) 40px}
+.top-utility{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-bottom:18px}
+.top-utility a{color:#aab2c0;text-decoration:none;font-size:12px}
+.top-utility a:hover{color:#fff}
+.ghost.small{width:auto;padding:8px 12px;font-size:10px;border-radius:8px;border:1px solid #303745;background:#0d1119;color:#aab1bd}
 
-.shell{
-  width:auto;
-  max-width:none;
-  margin:0 0 0 calc(var(--sidebar-w) + 22px);
-  padding:28px 30px 40px;
-  padding-right:30px;
-}
+/* Receitas */
+.recipes-panel{margin-top:18px;padding:22px}
+.recipes-search{max-width:260px;margin-top:0}
+.recipes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:16px}
+.rc-card{background:#0d1118;border:1px solid #252c37;border-radius:10px;padding:12px;cursor:pointer;transition:border-color .15s,background .15s}
+.rc-card:hover{border-color:#7e1d34;background:#161019}
+.rc-head{display:flex;align-items:center;gap:9px}
+.rc-name{font-size:12px;font-weight:700}
+.rc-out{color:#697283;font-size:10px}
+.rc-ings{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.rc-ing{font-size:10px;background:#0b0e14;border:1px solid #252c37;border-radius:20px;padding:3px 9px 3px 6px;display:inline-flex;align-items:center;gap:4px;color:#aab1bd}
+.rc-ing b{color:#fff}
+.rc-ing .ico{width:1.1em;height:1.1em}
 
-.hero{
-  max-width:900px;
-  margin-bottom:18px;
-  padding:4px 2px;
-}
-.hero h1{font-size:clamp(26px,3.2vw,42px);margin-bottom:8px}
-.hero p:not(.eyebrow){font-size:13px;max-width:760px;color:#7f91a3}
+/* Sobre */
+.about-panel{margin-top:18px;padding:22px}
+.about-body{max-width:720px;color:#aab1bd;font-size:13px;line-height:1.75}
+.about-body h3{color:#fff;font-size:13px;margin:18px 0 9px}
+.about-credits{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:#8e96a6}
 
-/* Desktop left navigation becomes the application sidebar. */
-.view-nav{
-  position:fixed;
-  left:0;
-  top:82px;
-  bottom:0;
-  width:var(--sidebar-w);
-  height:auto;
-  margin:0;
-  padding:18px 12px 210px;
-  border:0;
-  border-right:1px solid #223140;
-  border-radius:0;
-  background:
-    linear-gradient(180deg,rgba(5,11,17,.98) 0%,rgba(5,11,17,.94) 54%,rgba(5,11,17,.72) 100%),
-    url("https://a.storyblok.com/f/204235/3228x1647/d2829d2df1/about-scene_brorsan.png/m/fit-in/2560x1440") center bottom / 100% auto no-repeat;
-  box-shadow:12px 0 40px #0007;
-  flex-direction:column;
-  align-items:stretch;
-  gap:5px;
-  overflow:hidden;
-  backdrop-filter:none;
-}
-.view-nav::after{
-  content:"V RISING";
-  position:absolute;
-  left:18px;
-  bottom:18px;
-  color:#6d7f90;
-  font-size:9px;
-  letter-spacing:2px;
-  opacity:.7;
-}
-.view-btn{
-  flex:none;
-  width:100%;
-  min-width:0;
-  min-height:42px;
-  text-align:left;
-  padding:10px 13px;
-  border-radius:8px;
-  border-color:transparent;
-  color:#8da0b3;
-}
-.view-btn:hover{background:#12202d;color:#e8f0f7}
-.view-btn.active{
-  background:linear-gradient(90deg,#7e1933,#521324 75%,transparent);
-  border-color:#8e2942;
-  box-shadow:inset 3px 0 0 #e33a58,0 8px 22px #0003;
-  color:#fff;
-}
-.utility-btn{margin:8px 0 0!important;border-top:1px solid #23313f;border-radius:0;padding-top:18px}
-
-/* Workspace: crafting tree dominates the center, stock stays visible at right. */
-.calculator{
-  grid-template-columns:minmax(0,1fr) minmax(300px,350px);
-  grid-template-rows:auto minmax(430px,auto) auto;
-  gap:14px;
-  align-items:start;
-}
-.controls{
-  grid-column:1;
-  grid-row:1;
-  padding:16px 18px;
-  background:linear-gradient(145deg,#101b27ee,#0b121bf4);
-}
-.controls .item-list{max-height:150px}
-.controls .selected{margin:10px 0 12px}
-.controls .toggle-row{padding:9px 0}
-.controls .primary{margin-top:10px}
-.controls .secondary{margin-top:6px}
-
-.tree-panel{
-  grid-column:1;
-  grid-row:2;
-  margin-top:0;
-  min-height:430px;
-  background:
-    radial-gradient(circle at 50% 30%,#10283b66,transparent 48%),
-    linear-gradient(145deg,#0d1722f5,#081019f7);
-  border-color:#263c4f;
-}
-.results{
-  grid-column:1;
-  grid-row:3;
-  min-height:0;
-  margin-top:0;
-  padding:16px 18px;
-}
-.inventory-panel{
-  grid-column:2;
-  grid-row:1 / span 2;
-  margin:0;
-  position:sticky;
-  top:98px;
-  max-height:calc(100vh - 118px);
-  overflow:auto;
-  padding:18px;
-  background:linear-gradient(145deg,#0d1823f5,#091019f7);
-  border-color:#294052;
-}
-.inventory-panel::-webkit-scrollbar{width:6px}
-.inventory-panel::-webkit-scrollbar-thumb{background:#34495b;border-radius:8px}
-.inventory-grid{grid-template-columns:1fr}
-.inventory-target{background:#09131d;border-color:#294052}
-.inv-item.contextual{background:#0a131c;border-color:#263a4a}
-.inv-range::-webkit-slider-runnable-track{background:#263847}
-.inv-range::-moz-range-track{background:#263847}
-
-/* Give the crafting tree more visual weight like the reference. */
-.tree-panel .plan-head{
-  padding-bottom:12px;
-  border-bottom:1px solid #1e3140;
-}
-.tree-panel .eyebrow{color:#6e91ad}
-.tree-panel h2{font-size:18px}
-.tree-canvas{padding-top:24px}
-.tbox{
-  width:148px;
-  height:62px;
-  background:linear-gradient(145deg,#132231,#0b131c);
-  border-color:#3b5265;
-  box-shadow:0 8px 20px #0005;
-}
-.tbox.root{
-  border-color:#c52b49;
-  background:linear-gradient(145deg,#27111b,#101821);
-  box-shadow:0 0 0 2px #b51f3c30,0 12px 30px #0007;
-}
-.tbox.craft{border-color:#7e2940}
-.tbox.raw{border-color:#68532f}
-
-/* Farm becomes a wide visual section under the main workspace. */
-.farm-panel{
-  margin-top:14px;
-  background:
-    linear-gradient(90deg,rgba(7,13,19,.97),rgba(7,13,19,.84)),
-    url("https://a.storyblok.com/f/204235/3840x2160/ee510e6305/updated-hero-background.jpg/m/fit-in/2560x1440") center 58% / cover;
-  border-color:#3a2630;
-}
-.farm-panel .eyebrow{color:#a74c60}
-
-/* Keep secondary sections visually consistent with the new dashboard. */
-.map-panel,.plan{
-  background:linear-gradient(145deg,#0d1823f2,#091019f5);
-  border-color:#263b4c;
-}
-.project-bar{margin-top:14px}
-
-@media(max-width:1100px) and (min-width:801px){
-  :root{--sidebar-w:190px}
-  .shell{margin-left:calc(var(--sidebar-w) + 16px);padding-inline:20px}
-  .calculator{grid-template-columns:minmax(0,1fr) 290px}
-  .brand-logo{width:100px}
-  .view-btn{font-size:10px}
-}
-
-@media(max-width:800px){
-  .topbar{
-    height:68px;
-    padding:0 14px;
-    background-position:center;
-  }
-  .brand-logo{width:96px;height:34px}
-  .brand strong{font-size:10px}
-  .brand small{font-size:7px}
-  .shell{
-    width:min(100% - 20px,1180px);
-    margin:0 auto;
-    padding:18px 0 30px;
-  }
-  .hero{margin-bottom:14px}
-  .view-nav{
-    position:sticky;
-    left:auto;
-    top:68px;
-    bottom:auto;
-    width:100%;
-    height:auto;
-    margin:0 0 12px;
-    padding:5px;
-    border:1px solid #29303d;
-    border-radius:12px;
-    flex-direction:row;
-    gap:5px;
-    overflow-x:auto;
-    background:#0d1119ee;
-    box-shadow:0 10px 30px #0005;
-  }
-  .view-nav::after{display:none}
-  .view-btn{width:auto;min-width:112px;text-align:center}
-  .utility-btn{margin:0!important;border-top:0;padding-top:10px}
-  .calculator{
-    grid-template-columns:1fr;
-    grid-template-rows:auto;
-  }
-  .controls,.tree-panel,.results,.inventory-panel{
-    grid-column:1;
-    grid-row:auto;
-  }
-  .inventory-panel{
-    position:static;
-    max-height:none;
-    overflow:visible;
-  }
-  .inventory-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr))}
-}
-
-@media(max-width:560px){
-  .topbar{height:62px}
-  .brand-logo{width:82px}
-  .brand div{display:none}
-  .top-actions .language{display:none}
-  .view-nav{top:62px}
-  .shell{width:calc(100% - 20px)}
-  .calculator{gap:10px}
-  .tree-panel{min-height:390px}
-  .inventory-grid{grid-template-columns:1fr}
-}
-
-
-/* Fix: dedicated V Rising hero banner at the top. */
-.topbar{
-  position:relative;
-  height:150px;
-  min-height:150px;
-  padding:0 30px;
-  display:flex;
-  align-items:flex-end;
-  background-image:
-    linear-gradient(180deg,rgba(3,7,12,.18) 0%,rgba(3,7,12,.52) 62%,rgba(3,7,12,.96) 100%),
-    url("https://a.storyblok.com/f/204235/3840x2160/ee510e6305/updated-hero-background.jpg/m/fit-in/2560x1440");
-  background-position:center 34%;
-  background-size:cover;
-  background-repeat:no-repeat;
-  border-bottom:1px solid #27384a;
-  overflow:hidden;
-}
-.topbar::after{
-  content:"";
-  position:absolute;
-  inset:auto 0 0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,#8e2942 30%,#8e2942 70%,transparent);
-  opacity:.8;
-}
-.brand{
-  position:relative;
-  z-index:1;
-  margin-bottom:18px;
-  padding:8px 12px;
-  border:1px solid #263746aa;
-  border-radius:10px;
-  background:linear-gradient(90deg,#050b11dd,#050b1199);
-  backdrop-filter:blur(5px);
-}
-.top-actions{
-  position:relative;
-  z-index:1;
-  margin-bottom:18px;
-}
-.view-nav{top:150px}
-.shell{margin-left:calc(var(--sidebar-w) + 22px)}
-
-@media(max-width:1100px) and (min-width:801px){
-  .topbar{height:132px;min-height:132px}
-  .view-nav{top:132px}
-}
-
-@media(max-width:800px){
-  .topbar{
-    height:105px;
-    min-height:105px;
-    padding:0 14px;
-    align-items:flex-end;
-    background-position:center 34%;
-  }
-  .brand{margin-bottom:12px;padding:6px 9px}
-  .top-actions{margin-bottom:12px}
-  .view-nav{top:105px}
-}
-
-@media(max-width:560px){
-  .topbar{height:88px;min-height:88px}
-  .view-nav{top:88px}
-  .brand{margin-bottom:9px}
-  .top-actions{margin-bottom:9px}
-}
-
-
-/* Final: remove the broken top banner and restore a clean compact header. */
-.topbar{
-  position:relative;
-  height:82px;
-  min-height:82px;
-  padding:0 28px;
-  display:flex;
-  align-items:center;
-  background:#070c12;
-  border-bottom:1px solid #27384a;
-  overflow:visible;
-}
-.topbar::after{display:none}
-.brand{
-  position:relative;
-  z-index:1;
-  margin:0;
-  padding:0;
-  border:0;
-  border-radius:0;
-  background:transparent;
-  backdrop-filter:none;
-}
-.top-actions{
-  position:relative;
-  z-index:1;
-  margin:0;
-}
-.view-nav{top:82px}
-
-@media(max-width:1100px) and (min-width:801px){
-  .topbar{height:72px;min-height:72px}
-  .view-nav{top:72px}
+@media(max-width:900px){
+  .sidebar{width:200px}
 }
 @media(max-width:800px){
-  .topbar{
-    height:68px;
-    min-height:68px;
-    padding:0 14px;
-  }
-  .view-nav{top:68px}
+  .hero-banner{height:128px}
+  .hb-tagline{display:none}
+  .app-shell{flex-direction:column}
+  .sidebar{width:100%;position:static;max-height:none;border-right:0;border-bottom:1px solid #212a35;padding:12px 14px}
+  .side-nav{flex-direction:row;overflow-x:auto;gap:6px;scrollbar-width:none}
+  .side-nav::-webkit-scrollbar{display:none}
+  .side-nav .view-btn{flex:none;width:auto;min-width:118px;justify-content:center}
+  .vb-label{overflow:visible}
+  .side-quote{display:none}
+  .shell{padding:20px 16px 32px}
 }
-@media(max-width:560px){
-  .topbar{height:62px;min-height:62px}
-  .view-nav{top:62px}
+@media(max-width:480px){
+  .hero-banner{height:104px}
+  .brand strong{font-size:11px}
+  .top-utility{flex-wrap:wrap;gap:8px}
 }
