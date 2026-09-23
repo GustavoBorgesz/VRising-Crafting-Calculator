@@ -35,6 +35,16 @@ Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia comp
 - Atualização imediata do Modo Farm
 - Estoque salvo localmente no navegador
 
+### Receitas
+- Lista navegável de todos os itens fabricáveis do jogo
+- Busca por nome
+- Mostra os ingredientes de cada receita, com ícone e quantidade
+- Clicar em uma receita abre o item direto na Calculadora
+
+### Sobre o projeto
+- Explicação curta do que é a ferramenta e como ela funciona
+- Créditos: Stunlock Studios (jogo), V Rising Wiki (ícones), projeto de fã sem vínculo oficial
+
 ### Modo Farm
 - Materiais consolidados necessários para o item
 - Quantidades restantes após considerar o estoque
@@ -47,11 +57,11 @@ Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia comp
 - Link para mapa interativo externo
 
 ### Interface
-- Interface inspirada na atmosfera visual de **V Rising**
+- Interface inspirada na atmosfera visual de **V Rising**, mas com arte 100% original
 - Dashboard responsivo
-- Sidebar vertical no desktop
-- Navegação horizontal no mobile
-- Arte atmosférica de V Rising no layout
+- Sidebar vertical fixa no desktop, com 8 seções (Calculadora, Árvore, Meu Estoque, Mapa/Locais, Modo Farm, Minha Lista, Receitas, Sobre)
+- Barra de navegação horizontal e rolável no mobile
+- Banner com lua, névoa e silhueta de castelo, desenhado inteiramente em CSS
 - Tema escuro
 - Design adaptável para desktop, tablet e celular
 - Controles com áreas de toque maiores
@@ -79,9 +89,8 @@ Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia comp
 - Funcionamento offline após o carregamento inicial
 
 ### Visual
-- Ícones de materiais baseados em fontes públicas da comunidade
-- Emoji como fallback quando um ícone não está disponível
-- Arte oficial de V Rising utilizada como ambientação visual do projeto
+- Ícones de materiais carregados da V Rising Wiki (vrising.wiki.spellsandguns.com), com emoji como fallback quando um ícone falha ou ainda não está mapeado
+- Nenhuma arte oficial de V Rising é usada no projeto — o banner, a marca e os elementos decorativos são desenhados em CSS/SVG, sem reproduzir imagens ou logotipos da Stunlock Studios
 
 ## Dados
 
@@ -93,7 +102,7 @@ https://vrising.gaming.tools/
 
 Os dados e receitas podem mudar conforme atualizações do jogo. Por isso, a versão dos dados deve ser considerada separadamente da versão da interface.
 
-Os ícones são carregados de fontes públicas da comunidade. V Rising, sua identidade visual e seus assets pertencem aos respectivos detentores de direitos. Este é um projeto de fã e não é afiliado à Stunlock Studios.
+Os ícones são carregados da V Rising Wiki (fonte pública da comunidade). V Rising, sua identidade visual e seus assets pertencem aos respectivos detentores de direitos. Este é um projeto de fã, sem arte oficial embutida e sem afiliação com a Stunlock Studios.
 
 ## Estrutura do projeto
 
@@ -112,23 +121,24 @@ VRising-Crafting-Calculator/
 
 ## Interface
 
-A estrutura atual segue o fluxo:
+A navegação principal fica em uma barra lateral (sidebar no desktop, barra rolável no mobile) com 8 seções:
 
 ```text
-Navegação
-    ↓
-Calculadora
-    ↓
-Árvore de fabricação
-    ↓
-Resultado resumido
-
-Meu estoque → materiais necessários → quanto tenho → quanto falta
-    ↓
-Modo Farm → plano de coleta
+Calculadora → Árvore de fabricação → Meu estoque → Mapa/Locais
+    → Modo Farm → Minha lista → Receitas → Sobre o projeto
 ```
 
-No desktop, o **Meu estoque** permanece próximo da área de crafting para permitir ajustes enquanto a árvore é analisada. No mobile, os blocos passam para uma única coluna.
+Dentro da **Calculadora**, o fluxo segue:
+
+```text
+Item + quantidade
+    ↓
+Árvore de fabricação (visualização principal)
+    ↓
+Resultado resumido
+```
+
+**Meu estoque** mostra, para o item selecionado: materiais necessários → quanto já tenho → quanto falta, e essa informação alimenta o **Modo Farm** em tempo real.
 
 ## GitHub Pages
 
@@ -200,13 +210,14 @@ http://localhost:8000
 - [ ] Melhor feedback para receitas inexistentes
 - [ ] Confirmação antes de ações destrutivas
 - [ ] Indicador de atualização do aplicativo/PWA
-- [ ] Seção "Sobre os dados"
+- [x] Página "Sobre o projeto" com contexto e créditos
+- [ ] Expandir "Sobre" com detalhes sobre fontes e limitações da base de dados
 
 ## Status
 
 **Em desenvolvimento.**
 
-A interface, cálculo recursivo, árvore de fabricação, Meu estoque, Modo Farm, mapa de recursos, persistência local, responsividade e PWA já estão implementados. A principal etapa pendente é ampliar e validar a base de dados de receitas e suportar casos mais complexos de crafting.
+A interface, cálculo recursivo, árvore de fabricação, Meu estoque, Modo Farm, mapa de recursos, base de receitas navegável, persistência local, responsividade (testada de 320px a telas grandes) e PWA já estão implementados. A principal etapa pendente é ampliar e validar a base de dados de receitas e suportar casos mais complexos de crafting.
 
 ## Licença e créditos
 
