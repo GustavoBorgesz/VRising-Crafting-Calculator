@@ -45,6 +45,13 @@ Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia comp
 - Explicação curta do que é a ferramenta e como ela funciona
 - Créditos: Stunlock Studios (jogo), V Rising Wiki (ícones), projeto de fã sem vínculo oficial
 
+### Homogeneizador de Sangue
+- Referência dos 9 tipos de sangue do jogo (6 principais + 3 raros: Mutant, Draculin, Corrupted)
+- Para cada tipo: onde conseguir, foco de build e as 5 tiers de bônus
+- Explicação de como desbloquear e usar o Homogeneizador de Sangue (receita, custo e mecânica de mistura primário/secundário)
+- 6 misturas recomendadas, com o bônus escolhido do sangue secundário e o porquê de cada combinação
+- Dado de referência estático (não depende de save do jogo); percentuais podem variar um pouco entre patches
+
 ### Modo Farm
 - Materiais consolidados necessários para o item
 - Quantidades restantes após considerar o estoque
@@ -114,6 +121,7 @@ VRising-Crafting-Calculator/
 ├── data.js               # Itens e receitas
 ├── icons.js              # Mapa de ícones dos itens
 ├── locations.js          # Regiões e locais de recursos
+├── blood.js              # Tipos de sangue e misturas do Homogeneizador
 ├── manifest.webmanifest  # Configuração PWA
 ├── sw.js                 # Service Worker e cache offline
 └── README.md             # Documentação
@@ -121,11 +129,11 @@ VRising-Crafting-Calculator/
 
 ## Interface
 
-A navegação principal fica em uma barra lateral (sidebar no desktop, barra rolável no mobile) com 8 seções:
+A navegação principal fica em uma barra lateral (sidebar no desktop, barra rolável no mobile) com 9 seções:
 
 ```text
 Calculadora → Árvore de fabricação → Meu estoque → Mapa/Locais
-    → Modo Farm → Minha lista → Receitas → Sobre o projeto
+    → Homogeneizador de Sangue → Modo Farm → Minha lista → Receitas → Sobre o projeto
 ```
 
 Dentro da **Calculadora**, o fluxo segue:

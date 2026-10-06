@@ -21,6 +21,7 @@
 <button type="button" class="view-btn" data-view="tree" ><span class="vb-ico">⌘</span><span class="vb-label" data-i18n="navTree">Árvore de Fabricação</span></button>
 <button type="button" class="view-btn" data-view="inventory" ><span class="vb-ico">▣</span><span class="vb-label" data-i18n="navInventory">Meu Estoque</span></button>
 <button type="button" class="view-btn" data-view="map" ><span class="vb-ico">⌖</span><span class="vb-label" data-i18n="navMap">Mapa / Locais</span></button>
+<button type="button" class="view-btn" data-view="blood" ><span class="vb-ico">🩸</span><span class="vb-label" data-i18n="navBlood">Homogeneizador</span></button>
 <button type="button" class="view-btn" data-view="farm" ><span class="vb-ico">⛏</span><span class="vb-label" data-i18n="navFarm">Modo Farm</span></button>
 <button type="button" class="view-btn" data-view="plan" ><span class="vb-ico">☷</span><span class="vb-label" data-i18n="navPlan">Minha Lista</span></button>
 <button type="button" class="view-btn" data-view="recipes" ><span class="vb-ico">📖</span><span class="vb-label" data-i18n="navRecipes">Receitas</span></button>
@@ -62,9 +63,20 @@
 </section>
 
 <section id="planPanel" class="panel plan"><div class="plan-head"><div><p class="eyebrow" data-i18n="productionList">LISTA DE PRODUÇÃO</p><h2 data-i18n="myList">Minha lista de fabricação</h2></div><div class="plan-actions"><button id="farmPlan" class="secondary" type="button">⛏ Farmar minha lista</button><button id="clearPlan" class="ghost" type="button" data-i18n="clear">Limpar</button></div></div><div id="planItems" class="plan-items"><div class="empty" data-i18n="emptyPlan">Adicione itens à lista para somar tudo em uma única lista de farm.</div></div><div id="planTotals" class="plan-totals"></div></section>
+<section id="bloodPanel" class="panel blood-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="bloodEyebrow">HOMOGENEIZADOR DE SANGUE</p><h2 data-i18n="bloodTitle">Tipos de sangue e as melhores misturas</h2><p class="tree-hint" data-i18n="bloodHint">Referência dos 9 tipos de sangue do jogo e de como combiná-los no Homogeneizador de Sangue.</p></div></div>
+
+<div class="blood-unlock"><span class="blood-unlock-ico">🔓</span><div><b data-i18n="bloodUnlockLabel">Como desbloquear</b><p id="bloodUnlockText"></p><p class="blood-cost" id="bloodCostText"></p></div></div>
+<div class="blood-how"><span class="blood-how-ico">⚗️</span><p id="bloodHowText"></p></div>
+
+<h3 class="blood-subhead" data-i18n="bloodTypesHead">Tipos de sangue</h3>
+<div id="bloodTypesGrid" class="blood-types-grid"></div>
+
+<h3 class="blood-subhead" data-i18n="bloodCombosHead">Melhores misturas</h3>
+<div id="bloodCombosGrid" class="blood-combos-grid"></div>
+</section>
 <section id="recipesPanel" class="panel recipes-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="recipesEyebrow">BASE DE RECEITAS</p><h2 data-i18n="recipesTitle">Todas as receitas de fabricação</h2><p class="tree-hint" data-i18n="recipesHint">Navegue por todos os itens fabricáveis do jogo e veja o que cada um pede.</p></div><div class="searchbox recipes-search"><span>⌕</span><input id="recipeSearch" autocomplete="off" data-i18n-placeholder="searchPlaceholder" placeholder="Buscar item..."></div></div><div id="recipesGrid" class="recipes-grid"></div></section>
 <section id="aboutPanel" class="panel about-panel"><div class="plan-head"><div><p class="eyebrow" data-i18n="aboutEyebrow">SOBRE</p><h2 data-i18n="aboutTitle">Sobre o projeto</h2></div></div><div class="about-body"><p data-i18n="aboutP1">Ferramenta feita por fãs para planejar o crafting de V Rising: veja quanto farmar, monte a árvore de fabricação, controle seu estoque e descubra onde encontrar cada material.</p><p data-i18n="aboutP2">Projeto de página única, sem servidor nem coleta de dados — tudo roda no seu navegador e o inventário fica salvo só no seu aparelho.</p><h3 data-i18n="aboutCreditsTitle">Créditos</h3><ul class="about-credits"><li data-i18n="aboutCredit1">V Rising e todos os seus materiais, nomes e assets pertencem à Stunlock Studios.</li><li data-i18n="aboutCredit2">Ícones dos materiais: V Rising Wiki (vrising.wiki.spellsandguns.com).</li><li data-i18n="aboutCredit3">Este é um projeto de fã, sem qualquer vínculo oficial com a Stunlock Studios.</li></ul></div></section>
 <div class="project-bar"><button id="saveProject" class="secondary" type="button" data-i18n="saveProject">💾 Salvar projeto</button><button id="exportData" class="secondary" type="button" data-i18n="exportData">⬇ Exportar</button><button id="importData" class="secondary" type="button" data-i18n="importData">⬆ Importar</button><input id="importFile" type="file" accept=".json" hidden></div>
 <footer><span data-i18n="footer">Fan-made project · V Rising is property of Stunlock Studios.</span><span id="dataVersion">Recipe graph</span></footer>
 </main>
-</div><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(function(){})}</script></body></html>
+</div><script src="data.js"></script><script src="icons.js"></script><script src="locations.js"></script><script src="blood.js"></script><script src="app.js"></script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(function(){})}</script></body></html>

@@ -88,8 +88,13 @@ mapEyebrow:"MAPA DE RECURSOS",mapTitle:"Onde farmar os materiais",mapHint:"Regi�
 treeEyebrow:"ÁRVORE DE FABRICAÇÃO",treeTitle:"Do item final aos materiais",treeHint:"Cada linha liga um item aos ingredientes usados para fabricá-lo.",
 viewCalculator:"⚙ Calculadora",viewTree:"⌘ Árvore",viewMap:"⌖ Mapa",viewFarm:"⛏ Farm",viewInventory:"▣ Meu estoque",viewPlan:"☷ Minha lista",filterAll:"Todos",filterCraftable:"Fabricáveis",filterRaw:"Matérias-primas",filterFavorite:"★ Favoritos",filterMetal:"Metais",filterTextile:"Têxteis",filterAlchemy:"Alquimia",saved:"✓ Projeto salvo",exported:"✓ Dados exportados",imported:"✓ Dados importados",
 brandSub:"CRAFTING CALCULATOR",heroTagline:"PLANEJE SEU CRAFT.<br>OTIMIZE SEU FARM.<br>DOMINE V RISING.",sideQuote:"“O poder não é dado.<br>Ele é construído.”<cite>— V Rising</cite>",compact:"Compacto",
-navCalculator:"Calculadora",navTree:"Árvore de Fabricação",navInventory:"Meu Estoque",navMap:"Mapa / Locais",navFarm:"Modo Farm",navPlan:"Minha Lista",navRecipes:"Receitas",navAbout:"Sobre o Projeto",
+navCalculator:"Calculadora",navTree:"Árvore de Fabricação",navInventory:"Meu Estoque",navMap:"Mapa / Locais",navFarm:"Modo Farm",navPlan:"Minha Lista",navRecipes:"Receitas",navAbout:"Sobre o Projeto",navBlood:"Homogeneizador",
 recipesEyebrow:"BASE DE RECEITAS",recipesTitle:"Todas as receitas de fabricação",recipesHint:"Navegue por todos os itens fabricáveis do jogo e veja o que cada um pede.",recipesEmpty:"Nenhuma receita encontrada.",recipesMakes:"Produz",
+bloodEyebrow:"HOMOGENEIZADOR DE SANGUE",bloodTitle:"Tipos de sangue e as melhores misturas",bloodHint:"Referência dos 9 tipos de sangue do jogo e de como combiná-los no Homogeneizador de Sangue.",
+bloodUnlockLabel:"Como desbloquear",bloodCostLabel:"Custo de fabricação",bloodHowLabel:"Como funciona a mistura",bloodTypesHead:"Tipos de sangue",bloodCombosHead:"Melhores misturas",
+bloodSource:"Onde conseguir",bloodFocus:"Foco",bloodRisky:"⚠ risco/recompensa",bloodPrimary:"Primário",bloodSecondary:"Secundário",bloodPick:"Bônus escolhido do secundário",bloodCore:"Tipo principal",bloodRare:"Tipo raro",
+bloodTagSpell:"Magia",bloodTagPvp:"PvP",bloodTagSustain:"Sustentação",bloodTagTank:"Tanque",bloodTagFarm:"Farm",bloodTagHybrid:"Híbrido",
+bloodDisclaimer:"Referência da comunidade — os percentuais podem variar um pouco entre patches.",
 aboutEyebrow:"SOBRE",aboutTitle:"Sobre o projeto",aboutP1:"Ferramenta feita por fãs para planejar o crafting de V Rising: veja quanto farmar, monte a árvore de fabricação, controle seu estoque e descubra onde encontrar cada material.",aboutP2:"Projeto de página única, sem servidor nem coleta de dados — tudo roda no seu navegador e o inventário fica salvo só no seu aparelho.",aboutCreditsTitle:"Créditos",aboutCredit1:"V Rising e todos os seus materiais, nomes e assets pertencem à Stunlock Studios.",aboutCredit2:"Ícones dos materiais: V Rising Wiki (vrising.wiki.spellsandguns.com).",aboutCredit3:"Este é um projeto de fã, sem qualquer vínculo oficial com a Stunlock Studios."
 },
 "en":{
@@ -110,8 +115,13 @@ mapEyebrow:"RESOURCE MAP",mapTitle:"Where to farm the materials",mapHint:"Region
 treeEyebrow:"CRAFTING TREE",treeTitle:"From final item to materials",treeHint:"Each line links an item to the ingredients used to craft it.",
 viewCalculator:"⚙ Calculator",viewTree:"⌘ Tree",viewMap:"⌖ Map",viewFarm:"⛏ Farm",viewInventory:"▣ My stock",viewPlan:"☷ My list",filterAll:"All",filterCraftable:"Craftable",filterRaw:"Raw materials",filterFavorite:"★ Favorites",filterMetal:"Metals",filterTextile:"Textiles",filterAlchemy:"Alchemy",saved:"✓ Project saved",exported:"✓ Data exported",imported:"✓ Data imported",
 brandSub:"CRAFTING CALCULATOR",heroTagline:"PLAN YOUR CRAFT.<br>OPTIMIZE YOUR FARM.<br>MASTER V RISING.",sideQuote:"“Power is not given.<br>It is forged.”<cite>— V Rising</cite>",compact:"Compact",
-navCalculator:"Calculator",navTree:"Crafting Tree",navInventory:"My Stock",navMap:"Map / Locations",navFarm:"Farm Mode",navPlan:"My List",navRecipes:"Recipes",navAbout:"About the Project",
+navCalculator:"Calculator",navTree:"Crafting Tree",navInventory:"My Stock",navMap:"Map / Locations",navFarm:"Farm Mode",navPlan:"My List",navRecipes:"Recipes",navAbout:"About the Project",navBlood:"Homogenizer",
 recipesEyebrow:"RECIPE DATABASE",recipesTitle:"All crafting recipes",recipesHint:"Browse every craftable item in the game and see what it requires.",recipesEmpty:"No recipes found.",recipesMakes:"Makes",
+bloodEyebrow:"BLOOD HOMOGENIZER",bloodTitle:"Blood types and the best mixes",bloodHint:"Reference for the game's 9 blood types and how to combine them in the Blood Homogenizer.",
+bloodUnlockLabel:"How to unlock",bloodCostLabel:"Crafting cost",bloodHowLabel:"How mixing works",bloodTypesHead:"Blood types",bloodCombosHead:"Best mixes",
+bloodSource:"Where to get it",bloodFocus:"Focus",bloodRisky:"⚠ risk/reward",bloodPrimary:"Primary",bloodSecondary:"Secondary",bloodPick:"Picked bonus from secondary",bloodCore:"Core type",bloodRare:"Rare type",
+bloodTagSpell:"Spell",bloodTagPvp:"PvP",bloodTagSustain:"Sustain",bloodTagTank:"Tank",bloodTagFarm:"Farm",bloodTagHybrid:"Hybrid",
+bloodDisclaimer:"Community reference — percentages may vary slightly between patches.",
 aboutEyebrow:"ABOUT",aboutTitle:"About the project",aboutP1:"A fan-made tool to plan V Rising crafting: see how much to farm, build the crafting tree, track your stock, and find where to gather each material.",aboutP2:"A single-page project with no server and no data collection — everything runs in your browser, and your inventory is only saved on your own device.",aboutCreditsTitle:"Credits",aboutCredit1:"V Rising and all its materials, names, and assets belong to Stunlock Studios.",aboutCredit2:"Material icons: V Rising Wiki (vrising.wiki.spellsandguns.com).",aboutCredit3:"This is a fan project with no official affiliation with Stunlock Studios."
 }
 };
@@ -175,6 +185,7 @@ function applyLanguage(){
   renderItemList();render();
   renderPlan();
   if(el("recipesGrid"))renderRecipes(el("recipeSearch")?el("recipeSearch").value:"");
+  if(el("bloodTypesGrid"))renderBlood();
 }
 function selectItem(id){
   if(!items.has(id))return;
@@ -321,11 +332,13 @@ function activateView(view){
   else if(view==="plan") target=document.querySelector("#planPanel");
   else if(view==="recipes") target=document.querySelector("#recipesPanel");
   else if(view==="about") target=document.querySelector("#aboutPanel");
+  else if(view==="blood") target=document.querySelector("#bloodPanel");
   if(target){
     if(view==="farm") renderFarm();
     if(view==="inventory") renderInventory();
     if(view==="plan") renderPlan();
     if(view==="recipes") renderRecipes();
+    if(view==="blood") renderBlood();
     if(view==="tree") requestAnimationFrame(drawTreeLines);
     target.scrollIntoView({behavior:"smooth",block:"start"});
   }
@@ -344,6 +357,37 @@ function renderRecipes(q){
   el("recipesGrid").querySelectorAll(".rc-card").forEach(function(card){
     card.onclick=function(){selectItem(card.dataset.id);activateView("calculator")};
   });
+}
+function bl(v){return lang==="pt-BR"?v.pt:v.en}
+function renderBlood(){
+  var B=window.VR_BLOOD;if(!B)return;
+  var L=lang==="pt-BR"?"pt":"en";
+  el("bloodUnlockText").textContent=bl(B.homogenizer.unlock);
+  el("bloodCostText").innerHTML=t("bloodCostLabel")+": "+B.homogenizer.cost.map(function(c){
+    return c.icon+" "+c.name[L]+" × "+c.qty;
+  }).join(" · ");
+  el("bloodHowText").innerHTML="<b>"+t("bloodHowLabel")+":</b> "+bl(B.homogenizer.howItWorks);
+
+  el("bloodTypesGrid").innerHTML=B.types.map(function(b){
+    var tiers=b.tiers.map(function(tr,i){return '<li><b>T'+(i+1)+'</b> '+bl(tr)+'</li>'}).join("");
+    return '<div class="blood-card'+(b.risky?" risky":"")+'">'+
+      '<div class="blood-card-head"><span class="blood-ico">'+b.icon+'</span><div><div class="blood-name">'+b.name[L]+'</div>'+
+      '<span class="blood-badge '+(b.core?"core":"rare")+'">'+(b.core?t("bloodCore"):t("bloodRare"))+(b.risky?" · "+t("bloodRisky"):"")+'</span></div></div>'+
+      '<div class="blood-meta"><span><b>'+t("bloodSource")+':</b> '+b.source[L]+'</span><span><b>'+t("bloodFocus")+':</b> '+b.focus[L]+'</span></div>'+
+      '<ol class="blood-tiers">'+tiers+'</ol></div>';
+  }).join("");
+
+  var byId={};B.types.forEach(function(b){byId[b.id]=b});
+  el("bloodCombosGrid").innerHTML=B.combos.map(function(c){
+    var p=byId[c.primary],s=byId[c.secondary];
+    return '<div class="combo-card"><div class="combo-head">'+
+      '<span class="combo-chip primary">'+p.icon+' '+p.name[L]+'<small>'+t("bloodPrimary")+'</small></span>'+
+      '<span class="combo-plus">+</span>'+
+      '<span class="combo-chip secondary">'+s.icon+' '+s.name[L]+'<small>'+t("bloodSecondary")+'</small></span>'+
+      '<span class="combo-tag tag-'+c.tag+'">'+t("bloodTag"+c.tag.charAt(0).toUpperCase()+c.tag.slice(1))+'</span></div>'+
+      '<div class="combo-pick">'+t("bloodPick")+': <b>'+bl(c.pick)+'</b></div>'+
+      '<p class="combo-note">'+bl(c.note)+'</p></div>';
+  }).join("")+'<p class="blood-disclaimer">'+t("bloodDisclaimer")+'</p>';
 }
 function renderPlan(){
   el("planItems").innerHTML=plan.length?plan.map(function(p,i){return '<div class="plan-row"><span>'+iconHTML(p.id)+' &nbsp;'+itemName(p.id)+' × '+fmt(p.qty)+'</span><button type="button" data-i="'+i+'">'+t("remove")+"</button></div>"}).join(""):'<div class="empty">'+t("emptyPlan")+"</div>";
