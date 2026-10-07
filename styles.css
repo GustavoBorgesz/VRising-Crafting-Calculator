@@ -38,8 +38,9 @@ footer{display:flex;justify-content:space-between;gap:15px;color:#596170;font-si
 @media(min-width:801px){
   .calculator{grid-template-columns:350px minmax(0,1fr)}
   .controls{max-height:calc(100vh - 150px);overflow:auto}
-  .results{min-height:0;max-height:calc(100vh - 150px);overflow:auto}
+  .results{grid-column:1/-1;min-height:0;max-height:none;overflow:visible}
   .item-list{max-height:180px}
+  .results .materials{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 }
 @media(max-width:800px){
   .view-nav{top:68px}
@@ -116,17 +117,10 @@ button:focus-visible,input:focus-visible,a:focus-visible{
 .hero h1{font-size:clamp(2rem,4.2vw,3.25rem)}
 .panel{border-radius:var(--radius-md)}
 
-/* The main workspace is explicitly ordered:
-   controls | tree
-            | result */
-.calculator{
-  grid-template-columns:minmax(280px,350px) minmax(0,1fr);
-  grid-template-rows:auto auto;
-  align-items:start;
-}
-.controls{grid-column:1;grid-row:1 / span 2;min-width:0}
-.tree-panel{grid-column:2;grid-row:1;min-width:0}
-.results{grid-column:2;grid-row:2;min-width:0}
+/* Main workspace grid: controls | tree, with results spanning full width below
+   (column/row placement lives in the @media(min-width:801px) block above, next
+   to the matching mobile override, so there's one source of truth). */
+.controls,.tree-panel,.results{min-width:0}
 
 /* Container queries make individual panels responsive to their own width */
 .controls,.tree-panel,.results,.map-panel,.farm-panel,.inventory-panel,.plan{
@@ -326,13 +320,14 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   .hero-banner{height:128px}
   .hb-tagline{display:none}
   .app-shell{flex-direction:column}
-  .sidebar{width:100%;position:static;max-height:none;border-right:0;border-bottom:1px solid #212a35;padding:12px 14px}
-  .side-nav{flex-direction:row;overflow-x:auto;gap:6px;scrollbar-width:none}
+  .sidebar{width:100%;position:sticky;top:0;z-index:30;max-height:none;border-right:0;border-bottom:1px solid #212a35;padding:10px 14px;box-shadow:0 8px 20px #0006}
+  .side-nav{flex-direction:row;overflow-x:auto;gap:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .side-nav::-webkit-scrollbar{display:none}
   .side-nav .view-btn{flex:none;width:auto;min-width:118px;justify-content:center}
   .vb-label{overflow:visible}
   .side-quote{display:none}
   .shell{padding:20px 16px 32px}
+  .panel,.calculator{scroll-margin-top:76px}
 }
 @media(max-width:480px){
   .hero-banner{height:104px}
