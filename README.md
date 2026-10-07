@@ -66,11 +66,12 @@ Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia comp
 ### Interface
 - Interface inspirada na atmosfera visual de **V Rising**, mas com arte 100% original
 - Dashboard responsivo
-- Sidebar vertical fixa no desktop, com 8 seções (Calculadora, Árvore, Meu Estoque, Mapa/Locais, Modo Farm, Minha Lista, Receitas, Sobre)
-- Barra de navegação horizontal e rolável no mobile
+- Sidebar vertical fixa no desktop, com 9 seções (Calculadora, Árvore, Meu Estoque, Mapa/Locais, Homogeneizador de Sangue, Modo Farm, Minha Lista, Receitas, Sobre)
+- Barra de navegação horizontal, rolável e **fixa no topo (sticky)** no mobile, para trocar de seção sem precisar rolar a página até o topo
+- Resultado da calculadora e Meu Estoque ocupam a largura total da tela em telas médias/largas (sem colunas espremidas)
 - Banner com lua, névoa e silhueta de castelo, desenhado inteiramente em CSS
 - Tema escuro
-- Design adaptável para desktop, tablet e celular
+- Design adaptável para desktop, tablet e celular, testado de 320px a 1600px sem overflow horizontal
 - Controles com áreas de toque maiores
 - Suporte a teclado e foco acessível
 - Respeita `prefers-reduced-motion`
