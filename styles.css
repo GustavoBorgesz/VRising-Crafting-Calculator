@@ -377,3 +377,35 @@ button:focus-visible,input:focus-visible,a:focus-visible{
   .blood-types-grid,.blood-combos-grid{grid-template-columns:1fr}
   .combo-tag{margin-left:0}
 }
+
+/* ===== Direção visual gótico-vampírica (tipografia, molduras, vinheta, glow) ===== */
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at 50% 40%,transparent 48%,#000 128%);opacity:.75}
+
+/* Tipografia de título com ar de grimório/jogo gótico. Corpo de texto segue Inter para legibilidade. */
+h1,h2,h3,.brand strong,.side-quote{font-family:"Cinzel",Georgia,"Times New Roman",serif;letter-spacing:.3px}
+.brand strong{font-family:"Cinzel Decorative","Cinzel",serif;letter-spacing:1.5px}
+.result-head h2,.plan h2{font-weight:700}
+.eyebrow{font-family:Inter,Segoe UI,system-ui,sans-serif}
+
+/* Molduras entalhadas nos painéis: cantos retos em dourado envelhecido, como frames de UI de jogo */
+.panel{position:relative;border-radius:6px}
+.panel::before,.panel::after{content:"";position:absolute;width:22px;height:22px;pointer-events:none;opacity:.6;transition:opacity .2s}
+.panel::before{top:-2px;left:-2px;border-top:2px solid var(--gold);border-left:2px solid var(--gold)}
+.panel::after{bottom:-2px;right:-2px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold)}
+.panel:hover::before,.panel:hover::after{opacity:1}
+
+/* Divisor ornamentado sob o cabeçalho de cada seção (eyebrow + título) */
+.plan-head{position:relative;padding-bottom:17px;margin-bottom:19px}
+.plan-head::before{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,#7e1d34aa 15%,rgba(214,179,106,.55) 50%,#7e1d34aa 85%,transparent)}
+.plan-head::after{content:"◆";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);color:var(--gold);font-size:9px;line-height:1;opacity:.9;text-shadow:0 0 7px rgba(214,179,106,.6)}
+
+/* Glow sutil de sangue nos ícones de item/material */
+.ico{filter:drop-shadow(0 0 3px rgba(227,58,88,.4))}
+.item-icon,.rg-ico{box-shadow:0 0 0 1px #3b4351,0 0 16px -6px rgba(227,58,88,.65)}
+.tbox.craft{box-shadow:0 0 0 1px #7e1d34,0 0 18px -8px rgba(227,58,88,.55)}
+.tbox.root{box-shadow:0 0 0 3px #b51f3c26,0 0 24px -6px rgba(227,58,88,.7)}
+
+/* Vinheta atrás do conteúdo: garante que app-shell/hero fiquem acima da sombra fixa */
+.hero-banner,.app-shell{position:relative;z-index:2}
+
+@media(prefers-reduced-motion:reduce){.panel::before,.panel::after{transition:none}}

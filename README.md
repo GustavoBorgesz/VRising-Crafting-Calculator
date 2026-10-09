@@ -70,6 +70,7 @@ Calculadora web para planejar crafting no **V Rising**, visualizar a cadeia comp
 - Barra de navegação horizontal, rolável e **fixa no topo (sticky)** no mobile, para trocar de seção sem precisar rolar a página até o topo
 - Resultado da calculadora e Meu Estoque ocupam a largura total da tela em telas médias/largas (sem colunas espremidas)
 - Banner com lua, névoa e silhueta de castelo, desenhado inteiramente em CSS
+- Direção visual gótico-vampírica: tipografia serifada (Cinzel/Cinzel Decorative, Google Fonts) nos títulos, molduras entalhadas douradas nos cantos dos painéis, divisor ornamentado com losango sob cada cabeçalho, vinheta escurecendo as bordas da tela e glow vermelho sutil nos ícones de item/receita
 - Tema escuro
 - Design adaptável para desktop, tablet e celular, testado de 320px a 1600px sem overflow horizontal
 - Controles com áreas de toque maiores
